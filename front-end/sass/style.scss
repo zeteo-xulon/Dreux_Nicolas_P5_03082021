@@ -1,0 +1,15 @@
+
+
+@import './tools/variables';
+@import './tools/mixins';
+
+*{
+  box-sizing: border-box;
+}
+body{
+  margin: 0px;
+}
+@import './layouts/header';
+@import './layouts/footer';
+@import './layouts/main';
+

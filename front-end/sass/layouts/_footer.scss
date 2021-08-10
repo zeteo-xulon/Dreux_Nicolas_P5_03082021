@@ -1,0 +1,37 @@
+/* ===================================
+                FOOTER
+===================================*/
+.footer{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: $color-primary;
+  padding: 10px 20px;
+  & .footer__list{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+    gap: 1rem;
+  }
+}
+.footer__links{
+  & .footer__links__icon{
+    color: $text-transparency-color;
+    font-size: 2rem;
+    width: 180px;
+    text-decoration: none;
+    transition: 0.2s ease-in-out;
+    text-align: center;
+  }
+}
+.footer__links:hover{
+  & .footer__links__icon{
+    color: $text-color-secondary;
+    transform: scale(1.1,1.1);
+  }
+}
