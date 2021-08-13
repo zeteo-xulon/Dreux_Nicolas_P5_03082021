@@ -4,3 +4,13 @@
   background: rgb(231,139,6);
   background: linear-gradient(90deg, rgba(231,139,6,1) 0%, rgba(143,91,254,1) 78%);
 }
+
+@mixin flexCenter{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin boxShadow {
+  box-shadow: 0px 0px 7px rgba(200, 200, 200, 1);  
+}

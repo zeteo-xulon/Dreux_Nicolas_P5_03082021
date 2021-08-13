@@ -17,7 +17,9 @@
     flex-flow: column nowrap;
     width: 80%;
     & .logo{
+      min-height: 39px;
       height: 7vw;
+      min-width: 130px;
       width: 24vw;
     }
     & .main__title{
@@ -29,9 +31,18 @@
   & .cart__link{
     position: absolute;
     right: 2vw;
+    bottom: 1vh;
+
+    height: 2.5vw;
+    width: 2.5vw;
+    min-height: 25px;
+    min-width: 25px;
+    max-height: 40px;
+    max-width: 40px;
+    
     & .cart__logo{
-      height: 2rem;
-      width: 2rem;
+      height: 100%;
+      width: 100%;
       transition: .2s ease-in-out;
     }
     &:hover{

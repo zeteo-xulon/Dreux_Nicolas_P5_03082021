@@ -2,12 +2,11 @@
                 FOOTER
 ===================================*/
 .footer{
-  display: flex;
-  align-items: center;
-  justify-content: center;
+ @include flexCenter;
 
   background: $color-primary;
-  padding: 10px 20px;
+  padding: 30px 20px;
+
   & .footer__list{
     display: flex;
     flex-flow: row wrap;
@@ -23,7 +22,8 @@
   & .footer__links__icon{
     color: $text-transparency-color;
     font-size: 2rem;
-    width: 180px;
+    min-width: 100px;
+    width: 130px;
     text-decoration: none;
     transition: 0.2s ease-in-out;
     text-align: center;

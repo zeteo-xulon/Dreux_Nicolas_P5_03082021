@@ -25,7 +25,9 @@ body {
   width: 80%;
 }
 .header .header__box .logo {
+  min-height: 39px;
   height: 7vw;
+  min-width: 130px;
   width: 24vw;
 }
 .header .header__box .main__title {
@@ -36,10 +38,17 @@ body {
 .header .cart__link {
   position: absolute;
   right: 2vw;
+  bottom: 1vh;
+  height: 2.5vw;
+  width: 2.5vw;
+  min-height: 25px;
+  min-width: 25px;
+  max-height: 40px;
+  max-width: 40px;
 }
 .header .cart__link .cart__logo {
-  height: 2rem;
-  width: 2rem;
+  height: 100%;
+  width: 100%;
   transition: 0.2s ease-in-out;
 }
 .header .cart__link:hover .cart__logo {
@@ -54,7 +63,7 @@ body {
   align-items: center;
   justify-content: center;
   background: #8f5bfe;
-  padding: 10px 20px;
+  padding: 30px 20px;
 }
 .footer .footer__list {
   display: flex;
@@ -69,7 +78,8 @@ body {
 .footer__links .footer__links__icon {
   color: rgba(255, 255, 255, 0.8);
   font-size: 2rem;
-  width: 180px;
+  min-width: 100px;
+  width: 130px;
   text-decoration: none;
   transition: 0.2s ease-in-out;
   text-align: center;
@@ -83,6 +93,13 @@ body {
 /*========================================
                       MAIN PAGE
 =======================================*/
+.container {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  min-height: 100vh;
+}
+
 .main {
   padding: 1rem 2rem;
 }
@@ -98,12 +115,86 @@ body {
 }
 .main .teddie__list .teddie__card {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  box-shadow: 0px 0px 7px #c8c8c8;
   width: 200px;
   height: 200px;
-  box-shadow: 0px 0px 7px #c8c8c8;
   border-radius: 50%;
+}
+
+.center-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: column nowrap;
+}
+
+/*=================================
+            PRODUCT
+=================================*/
+.main__product {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 75vh;
+  width: 100%;
+  padding: 0px 5%;
+}
+.main__product .product-card {
+  box-shadow: 0px 0px 7px #c8c8c8;
+  height: 100%;
+  width: 100%;
+}
+.main__product .product-card .product__img {
+  height: 50%;
+  width: 100%;
+  background-size: cover;
+  border-bottom: 2px solid #f3e9f2;
+}
+
+.product__informations .product__name {
+  margin: 5px 0px;
+}
+.product__informations .product__id {
+  margin: 0px;
+}
+
+.product__description {
+  padding: 5px 10px;
+}
+.product__description .product__title {
+  font-size: 1rem;
+}
+.product__description .product__description__paragraph {
+  font-size: 1rem;
+  font-style: italic;
+}
+
+/*=================================
+            CART
+=================================*/
+.cart__main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 75vh;
+  width: 100%;
+  padding: 10px;
+}
+.cart__main .cart__container {
+  border: 2px solid #f3e9f2;
+  padding: 10px;
+  height: 70vh;
+  width: 100%;
+}
+
+.cart__article {
+  box-shadow: 0px 0px 7px #c8c8c8;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-evenly;
+  padding: 10px;
 }
 
 /*# sourceMappingURL=style.css.map */
