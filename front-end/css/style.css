@@ -93,11 +93,19 @@ body {
 /*========================================
                       MAIN PAGE
 =======================================*/
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+}
+
 .container {
   display: flex;
   flex-flow: column nowrap;
   justify-content: space-between;
-  min-height: 100vh;
+  height: 100%;
 }
 
 .main {
@@ -137,7 +145,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 75vh;
+  height: 100%;
   width: 100%;
   padding: 0px 5%;
 }
@@ -196,5 +204,9 @@ body {
   justify-content: space-evenly;
   padding: 10px;
 }
+
+/*====================================
+            FINAL PAGE
+===================================*/
 
 /*# sourceMappingURL=style.css.map */

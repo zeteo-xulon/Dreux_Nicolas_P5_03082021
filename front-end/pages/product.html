@@ -34,31 +34,25 @@
 
           <article class="product__informations">
 
-            <div class="center-box">
+            <div class="product__container">
               <h2 class="product__name">name of the product</h2>
               <p class="product__id">Référence : </p>
-              <div>
-                <input type="radio" id="color1" name="color" value="color1">
-                <label for="color1">Color1</label>
-                <input type="radio" id="color2" name="color" value="color2">
-                <label for="color2">Color2</label>
-                <input type="radio" id="color3" name="color" value="color3">
-                <label for="color3">Color3</label>
-              </div>
-            </div>
+              <input type="radio" id="color1" name="color" value="color1">
+              <label for="color1">Color1</label>
+              <input type="number" name="product__quantity" id="productQuantity" min="0" max="9">
             
               <aside class="product__description">
                 <h3 class="product__title">Description</h3>
                 <p class="product__description__paragraph">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Magnam, eaque. Voluptates maxime illo vero ducimus, eligendi, ea dolor blanditiis reprehenderit praesentium ab consequatur totam ad accusamus, ipsam delectus! Unde, vitae?</p>
               </aside>
 
-          </article>
+            <div class="center-box">
+              <p class="product__price">€€€</p>
+              <button>Ajouter au panier</button>
+            </div>
 
-          <div class="center-box">
-            <p class="product__price">€€€</p>
-            <button>Ajouter au panier</button>
-          </div>
-
+        </article>
+        
         </section>
 
     </main>

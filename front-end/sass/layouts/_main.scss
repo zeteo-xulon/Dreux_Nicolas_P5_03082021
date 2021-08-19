@@ -1,11 +1,17 @@
 /*========================================
                       MAIN PAGE
 =======================================*/
+html{
+  height: 100%;
+}
+body{
+  height: 100%;
+}
 .container{
   display:flex;
   flex-flow: column nowrap;
   justify-content: space-between;
-  min-height: 100vh;
+  height: 100%;
 }
 .main{
   padding: 1rem 2rem;
@@ -34,69 +40,4 @@
   flex-flow: column nowrap;
 }
 
-/*=================================
-            PRODUCT
-=================================*/
 
-.main__product{
-  @include flexCenter;
-  height: 75vh;
-  width: 100%;
-  padding: 0px 5%;
-  & .product-card{
-    @include boxShadow;
-    height: 100%;
-    width: 100%;
-    & .product__img{
-      height: 50%;
-      width: 100%;
-      background-size: cover;
-      border-bottom: 2px solid $background-color;
-    }
-  }
-}
-.product__informations{
-  & .product__name{
-    margin: 5px 0px;
-  }
-  & .product__id{
-    margin: 0px;
-  }
-}
-.product__description{
-  padding:5px 10px;
-  & .product__title{
-    font-size: 1rem;
-  }
-  & .product__description__paragraph{
-    font-size: 1rem;
-    font-style: italic;
-  }
-}
-
-
-/*=================================
-            CART
-=================================*/
-
-.cart__main{
-  @include flexCenter;
-  min-height: 75vh;
-  width: 100%;
-  padding: 10px;
-  & .cart__container{
-    border: 2px solid $background-color;
-    padding: 10px;
-    height: 70vh;
-    width: 100%;
-  }
-}
-
-.cart__article{
-  @include boxShadow;
-  border-radius: 10px;
-
-  display: flex;
-  justify-content: space-evenly;
-  padding: 10px;
-}

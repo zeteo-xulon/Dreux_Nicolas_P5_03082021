@@ -1,0 +1,42 @@
+
+
+/*=================================
+            PRODUCT
+=================================*/
+
+.main__product{
+  @include flexCenter;
+  height: 100%;
+  width: 100%;
+  padding: 0px 5%;
+  & .product-card{
+    @include boxShadow;
+    height: 100%;
+    width: 100%;
+    & .product__img{
+      height: 50%;
+      width: 100%;
+      background-size: cover;
+      border-bottom: 2px solid $background-color;
+    }
+  }
+}
+.product__informations{
+  & .product__name{
+    margin: 5px 0px;
+  }
+  & .product__id{
+    margin: 0px;
+  }
+}
+.product__description{
+  padding:5px 10px;
+  & .product__title{
+    font-size: 1rem;
+  }
+  & .product__description__paragraph{
+    font-size: 1rem;
+    font-style: italic;
+  }
+}
+
