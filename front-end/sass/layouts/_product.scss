@@ -8,20 +8,25 @@
   @include flexCenter;
   height: 100%;
   width: 100%;
-  padding: 0px 5%;
+  padding: 5%;
   & .product-card{
     @include boxShadow;
-    height: 100%;
-    width: 100%;
-    & .product__img{
+    & .product__img-box{
       height: 50%;
       width: 100%;
       background-size: cover;
       border-bottom: 2px solid $background-color;
+      & .product__img{
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+      }
     }
   }
 }
 .product__informations{
+  display: flex;
+  flex-flow:column nowrap;
   & .product__name{
     margin: 5px 0px;
   }

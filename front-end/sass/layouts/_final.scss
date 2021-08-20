@@ -2,3 +2,30 @@
 /*====================================
             FINAL PAGE
 ===================================*/
+.ticket{
+  @include boxShadow;
+  @include flexCenter;
+  flex-flow: column nowrap;
+  padding: 10px;
+  & .ticket__id{
+    font-size: 1.8rem;
+  }
+  & .ticket__confirm{
+    font-size: 1.3rem;
+    & .fa-check-circle{
+      color:limegreen;
+    }
+  }
+  & .ticket__thanks{
+    @include flexCenter;
+    flex-flow: column nowrap;
+    &__paragraph{
+      margin: 5px;
+    }
+    &__img{
+      height: 4rem;
+      width: 15rem;
+      margin: 10px;
+    }
+  }
+}

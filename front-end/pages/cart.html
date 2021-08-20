@@ -14,7 +14,7 @@
 
     <header class="header">
       <div class="header__box">
-        <a href="../index.html">
+        <a href="/index.html">
              <img  class="logo" src="../images/logo_transparent.png" alt="logo Orinoco" height="50" width="200"  />
          </a>
         <h1 class="main__title">Les spécialistes des produits premium</h1>
@@ -26,28 +26,33 @@
 
     <main class="cart__main">
 
-      <div class="cart__container">
+      <article class="cart__container">
 
-        <article class="cart__article">
-          <a href="./produit.html">
-            <img class="cart__product__img" src="#">
-          </a>
+        <section class="cart__article">
+
+          <a href="./product.html"><img class="cart__product__img" src="#"></a>
+
           <div class="cart__product__box">
             <h2 class="cart__product__name">Product name</h2>
-          <h3 class="cart__product__id">Référence : </h3>
+            <h3 class="cart__product__id">Référence : </h3>
           </div>
+
           <p class="cart__product__color">Color selected</p>
+
           <div class="cart__product__number__box">
-            <textarea class="cart__product__number"></textarea>
+            <input type="number" name="product__quantity" id="cartProductQuantity" min="0" max="9">
           </div>
+
           <p class="cart__product__price">€€€</p>
-        </article>
 
-        <article class="cart__total-price">
-          
-        </article>
+        </section>
 
-      </div>
+        <section class="cart__total__price">
+          <p class="total__price__text">Total du panier</p>
+          <p class="total__price" id="totalPrice">€€€</p>
+        </section>
+
+      </article>
 
 
     </main>

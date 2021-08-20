@@ -6,19 +6,20 @@
 
 .cart__main{
   @include flexCenter;
-  min-height: 75vh;
-  width: 100%;
+  background-image: linear-gradient(180deg, $background-color, $color-primary);
+  height: 100%;
   padding: 10px;
   & .cart__container{
-    border: 2px solid $background-color;
+    background: $text-color-secondary;
+    border-radius: 15px;
     padding: 10px;
-    height: 70vh;
+    height: 100%;
     width: 100%;
   }
 }
 
 .cart__article{
-  @include boxShadow;
+
   border-radius: 10px;
 
   display: flex;
