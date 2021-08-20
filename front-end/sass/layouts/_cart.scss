@@ -9,20 +9,27 @@
   background-image: linear-gradient(180deg, $background-color, $color-primary);
   height: 100%;
   padding: 10px;
-  & .cart__container{
+}
+.cart__container{
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
     background: $text-color-secondary;
     border-radius: 15px;
     padding: 10px;
     height: 100%;
     width: 100%;
   }
-}
 
 .cart__article{
-
   border-radius: 10px;
-
   display: flex;
   justify-content: space-evenly;
   padding: 10px;
+}
+.cart__total__price{
+  display: flex;
+  justify-content: flex-end;
+  margin: auto;
+  
 }
