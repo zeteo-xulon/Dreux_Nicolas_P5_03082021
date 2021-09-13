@@ -5,6 +5,7 @@
 
 *{
   box-sizing: border-box;
+  font-family: Helvetica, Arial, sans-serif;
 }
 body{
   margin: 0px;
@@ -16,3 +17,4 @@ body{
 @import './layouts/cart';
 @import './layouts/final';
 
+@import './components/buttons';

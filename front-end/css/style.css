@@ -1,5 +1,6 @@
 * {
   box-sizing: border-box;
+  font-family: Helvetica, Arial, sans-serif;
 }
 
 body {
@@ -129,6 +130,17 @@ body {
   width: 200px;
   height: 200px;
   border-radius: 50%;
+  overflow: hidden;
+  transition: 0.3s;
+}
+.main .teddie__list .teddie__card:hover {
+  transform: scale(1.05, 1.05);
+}
+.main .teddie__list img {
+  height: 100%;
+  width: 100%;
+  -o-object-fit: cover;
+  object-fit: cover;
 }
 
 .center-box {
@@ -255,6 +267,21 @@ body {
   height: 4rem;
   width: 15rem;
   margin: 10px;
+}
+
+.btn {
+  background-color: #8f5bfe;
+  color: white;
+  font-weight: bold;
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  border-radius: 20px;
+  box-shadow: inset -2px -2px 2px darkslateblue;
+  border: 0px solid black;
+}
+.btn:active {
+  box-shadow: inset 4px 4px 5px darkslateblue;
+  transition: 0.1s ease-in-out;
 }
 
 /*# sourceMappingURL=style.css.map */

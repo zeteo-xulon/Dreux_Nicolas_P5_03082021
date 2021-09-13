@@ -1,0 +1,14 @@
+.btn{
+  background-color: $color-primary;
+  color:white;
+  font-weight: bold;
+  font-size: 1.5rem;
+  padding: .5rem;
+  border-radius: 20px;
+  @include btnShadow;
+  border: 0px solid black;
+  &:active{
+    @include btnShadowActive;
+    transition: .1s ease-in-out;
+  }
+}
