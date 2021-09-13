@@ -12,7 +12,7 @@ async function fetching() {
       //Boucle de récupération des images de chaque objet du tableau
       for(teddie of data){
         document.querySelector(".teddie__list").innerHTML += `
-        <a class="teddie__card" href="./pages/product.html">
+        <a class="teddie__card" href="./front-end/pages/product.html">
         <img src="${teddie.imageUrl}" alt="Image d'ours en peluche">
       </a>
         `;
