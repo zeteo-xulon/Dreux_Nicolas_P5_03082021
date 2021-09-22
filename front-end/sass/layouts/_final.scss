@@ -3,10 +3,14 @@
             FINAL PAGE
 ===================================*/
 .ticket{
-  @include boxShadow;
   @include flexCenter;
+  @include longShadow;
   flex-flow: column nowrap;
   padding: 10px;
+  border-radius: 10px;
+  background: $background-color;
+
+
   & .ticket__id{
     font-size: 1.8rem;
   }
@@ -28,4 +32,14 @@
       margin: 10px;
     }
   }
+}
+
+.main__final {
+  @include flexCenter;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: linear-gradient(
+0deg, #8f5bfe, #f3e9f2);
 }

@@ -4,6 +4,7 @@
 let urlParameter = new URLSearchParams(window.location.search);
 let id = urlParameter.get("_id");
 console.log(urlParameter);
+
 const fetchAdress = "http://localhost:3000/api/teddies" + "/" + id;
 const mainProduct = document.querySelector('main');
 let optionColor = "";
@@ -75,8 +76,8 @@ const teddieDisplayInfo = (product) => {
           </aside>
 
           <div class="center-box">
-            <p class="product__price">${product.price} RS</p>
-            <button>Ajouter au panier</button>
+            <p class="product__price">${parseInt(product.price) /100} €</p>
+            <button class="btn">Ajouter au panier</button>
           </div>
 
       </article>

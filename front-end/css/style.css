@@ -110,33 +110,52 @@ body {
 }
 
 .main {
+  height: 100%;
+  display: flex;
+  align-items: center;
   padding: 1rem 2rem;
+  background: linear-gradient(0deg, #8f5bfe, #f3e9f2);
 }
-.main .teddie__list {
+.main .main-container {
+  box-shadow: -2px -2px 4px rgba(0, 0, 0, 0.15), -4px -4px 8px rgba(0, 0, 0, 0.15), 2px 2px 4px rgba(255, 255, 255, 0.15), 4px 4px 8px rgba(255, 255, 255, 0.15), 8px 8px 16px rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  height: 100%;
+  width: 100%;
+  border-radius: 20px;
+  padding: 10px 0px;
+}
+.main .main-container .teddie__list {
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
   margin: 0px;
-  padding: 0px;
+  padding: 1rem;
   gap: 2rem;
   width: 100%;
   list-style-type: none;
 }
-.main .teddie__list .teddie__card {
+.main .main-container .teddie__list .teddie__card {
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0px 0px 7px #c8c8c8;
-  width: 200px;
-  height: 200px;
+  box-shadow: 0px 0px 2px rgba(143, 91, 254, 0.15), 0px 0px 4px rgba(143, 91, 254, 0.15), 0px 0px 8px rgba(143, 91, 254, 0.2), 0px 0px 16px rgba(143, 91, 254, 0.15);
+  min-width: 200px;
+  min-height: 200px;
+  width: 20vw;
+  height: 20vw;
+  max-height: 300px;
+  max-width: 300px;
   border-radius: 50%;
   overflow: hidden;
   transition: 0.3s;
 }
-.main .teddie__list .teddie__card:hover {
+.main .main-container .teddie__list .teddie__card:hover {
   transform: scale(1.05, 1.05);
 }
-.main .teddie__list img {
+.main .main-container .teddie__list img {
   height: 100%;
   width: 100%;
   -o-object-fit: cover;
@@ -150,6 +169,14 @@ body {
   flex-flow: column nowrap;
 }
 
+/* ================================== */
+/* 					MEDIA QUERIE							*/
+/* ================================== */
+@media screen and (max-width: 550px) {
+  .main {
+    height: auto;
+  }
+}
 /*=================================
             PRODUCT
 =================================*/
@@ -157,12 +184,16 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100%;
   width: 100%;
+  height: auto;
   padding: 5%;
+  background-image: linear-gradient(0deg, #8f5bfe, #f3e9f2);
 }
 .main__product .product-card {
-  box-shadow: 0px 0px 7px #c8c8c8;
+  box-shadow: -2px -2px 4px rgba(0, 0, 0, 0.15), -4px -4px 8px rgba(0, 0, 0, 0.15), 2px 2px 4px rgba(255, 255, 255, 0.15), 4px 4px 8px rgba(255, 255, 255, 0.15), 8px 8px 16px rgba(255, 255, 255, 0.15);
+  background: #f3e9f2;
+  border-radius: 20px;
+  overflow: hidden;
 }
 .main__product .product-card .product__img-box {
   height: 50%;
@@ -173,12 +204,14 @@ body {
 .main__product .product-card .product__img-box .product__img {
   height: 100%;
   width: 100%;
+  -o-object-fit: cover;
   object-fit: cover;
 }
 
 .product__informations {
   display: flex;
   flex-flow: column nowrap;
+  padding: 10px;
 }
 .product__informations .product__name {
   margin: 5px 0px;
@@ -198,6 +231,14 @@ body {
   font-style: italic;
 }
 
+/* ================================== */
+/* 					MEDIA QUERIE							*/
+/* ================================== */
+@media screen and (max-width: 680px) {
+  .main__product {
+    height: 100%;
+  }
+}
 /*=================================
             CART
 =================================*/
@@ -238,12 +279,14 @@ body {
             FINAL PAGE
 ===================================*/
 .ticket {
-  box-shadow: 0px 0px 7px #c8c8c8;
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: -2px -2px 4px rgba(0, 0, 0, 0.15), -4px -4px 8px rgba(0, 0, 0, 0.15), -8px -8px 16px rgba(0, 0, 0, 0.15), 2px 2px 4px rgba(255, 255, 255, 0.15), 4px 4px 8px rgba(255, 255, 255, 0.15), 8px 8px 16px rgba(255, 255, 255, 0.15);
   flex-flow: column nowrap;
   padding: 10px;
+  border-radius: 10px;
+  background: #f3e9f2;
 }
 .ticket .ticket__id {
   font-size: 1.8rem;
@@ -267,6 +310,17 @@ body {
   height: 4rem;
   width: 15rem;
   margin: 10px;
+}
+
+.main__final {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: linear-gradient(0deg, #8f5bfe, #f3e9f2);
 }
 
 .btn {

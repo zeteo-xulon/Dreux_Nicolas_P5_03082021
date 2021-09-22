@@ -1,54 +1,82 @@
 /*========================================
                       MAIN PAGE
 =======================================*/
-html{
-  height: 100%;
+html {
+	height: 100%;
 }
-body{
-  height: 100%;
+body {
+	height: 100%;
 }
-.container{
-  display:flex;
-  flex-flow: column nowrap;
-  justify-content: space-between;
-  height: 100%;
+.container {
+	display: flex;
+	flex-flow: column nowrap;
+	justify-content: space-between;
+	height: 100%;
 }
-.main{
-  padding: 1rem 2rem;
-  & .teddie__list{
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: center;
+.main {
+	height: 100%;
+	display: flex;
+	align-items: center;
+	padding: 1rem 2rem;
+	background: linear-gradient(0deg, $color-primary, $background-color);
+	& .main-container {
+		@include clearShadow;
+		@include flexCenter;
+		background: $background-color-secondary;
+		height: 100%;
+		width: 100%;
+		border-radius: 20px;
+		padding: 10px 0px;
 
-    margin: 0px;
-    padding: 0px;
-    gap: 2rem;
-    width: 100%;
+		& .teddie__list {
+			display: flex;
+			flex-flow: row wrap;
+			justify-content: center;
 
-    list-style-type: none;
-    & .teddie__card{
-      @include flexCenter;
-      @include boxShadow;
-      width: 200px;
-      height: 200px;
-      border-radius: 50%;
-      overflow: hidden;
-      transition: .3s;
-      &:hover{
-        transform: scale(1.05, 1.05);
-      }
-    }
-    & img {
-      height: 100%;
-      width: 100%;
-      -o-object-fit: cover;
-         object-fit: cover;
-    }
-  }
+			margin: 0px;
+			padding: 1rem;
+			gap: 2rem;
+			width: 100%;
+
+			list-style-type: none;
+			& .teddie__card {
+				@include flexCenter;
+				@include primaryColorShadow;
+
+				min-width: 200px;
+				min-height: 200px;
+				width: 20vw;
+				height: 20vw;
+				max-height: 300px;
+				max-width: 300px;
+
+				border-radius: 50%;
+				overflow: hidden;
+				transition: 0.3s;
+				&:hover {
+					transform: scale(1.05, 1.05);
+				}
+			}
+			& img {
+				height: 100%;
+				width: 100%;
+				-o-object-fit: cover;
+				object-fit: cover;
+			}
+		}
+	}
 }
-.center-box{
-  @include flexCenter;
-  flex-flow: column nowrap;
+.center-box {
+	@include flexCenter;
+	flex-flow: column nowrap;
 }
 
+/* ================================== */
+/* 					MEDIA QUERIE							*/
+/* ================================== */
 
+@media screen and (max-width: 550px) {
+	.main {
+		height: auto;
+	}
+}
