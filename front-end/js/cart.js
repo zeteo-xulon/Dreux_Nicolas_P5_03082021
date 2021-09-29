@@ -25,7 +25,7 @@ display();
 //=============================
 function injectTeddiesInCartList(param) {
 	return `
-  <a href="./front-end/pages/product.html?_id=${param._id}">
+  <a class="cart__link__product" href="./front-end/pages/product.html?_id=${param._id}">
   <img class="cart__product__img" src="${param.imageUrl}">
   </a>
 
@@ -37,11 +37,11 @@ function injectTeddiesInCartList(param) {
   <p class="cart__product__color">${incartProduct.color}</p>
 
   <div class="cart__product__number__box">
-    <input type="number" name="product__quantity" id="cartProductQuantity" min="0" max="9" value='${
+    <input type="number" name="product__quantity" class="cart__product__quantity" id="cartProductQuantity" min="0" max="9" value='${
 			incartProduct.quantity
 		}'>
   </div>
 
-  <p class="cart__product__price">${parseInt(param.price) / 100}</p>
+  <p class="cart__product__price">${parseInt(param.price) / 100} €</p>
   `;
 }

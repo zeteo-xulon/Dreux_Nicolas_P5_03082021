@@ -99,6 +99,8 @@ const displayErrorMessage = () => {
     `;
 };
 
+//----------------
+// Send to localStorage the information of the product, id, color and quantity.
 async function submit() {
 	const productColor = document.getElementById("optionColor").value;
 	const productQuantity = document.getElementById("productQuantity").value;
