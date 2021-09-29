@@ -81,7 +81,7 @@ function teddieDisplayInfo(product) {
           </aside>
 
           <div class="center-box">
-            <p class="product__price">${parseInt(product.price) / 100} €</p>
+            <p class="product__price">${formatter.format(parseInt(product.price) / 100)}</p>
             <button class="btn" id="productSubmit">Ajouter au panier</button>
           </div>
 
@@ -103,8 +103,9 @@ const displayErrorMessage = () => {
 // Send to localStorage the information of the product, id, color and quantity.
 async function submit() {
 	const productColor = document.getElementById("optionColor").value;
-	const productQuantity = document.getElementById("productQuantity").value;
+	const productQuantityPointer = document.getElementById("productQuantity");
 	const submitButton = document.getElementById("productSubmit");
+	let productQuantity = "";
 	//on click, it will collect all the data
 	submitButton.onclick = function (data) {
 		let productItem = {
@@ -115,6 +116,10 @@ async function submit() {
 		let productSerialized = JSON.stringify(productItem);
 		localStorage.setItem("productItem", productSerialized);
 	};
+}
+
+function getQuantityValue (date) {
+	
 }
 
 //=======================================
