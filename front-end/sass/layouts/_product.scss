@@ -8,6 +8,7 @@
   @include flexCenter;
   width: 100%;
   height: auto;
+  flex-grow: 3;
   padding: 5%;
   background-image: linear-gradient(0deg, $color-primary, $background-color);
   & .product-card{

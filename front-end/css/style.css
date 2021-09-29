@@ -115,6 +115,7 @@ body {
   align-items: center;
   padding: 1rem 2rem;
   background: linear-gradient(0deg, #8f5bfe, #f3e9f2);
+  flex-grow: 3;
 }
 .main .main-container {
   box-shadow: -2px -2px 4px rgba(0, 0, 0, 0.15), -4px -4px 8px rgba(0, 0, 0, 0.15), 2px 2px 4px rgba(255, 255, 255, 0.15), 4px 4px 8px rgba(255, 255, 255, 0.15), 8px 8px 16px rgba(255, 255, 255, 0.15);
@@ -186,6 +187,7 @@ body {
   justify-content: center;
   width: 100%;
   height: auto;
+  flex-grow: 3;
   padding: 5%;
   background-image: linear-gradient(0deg, #8f5bfe, #f3e9f2);
 }
