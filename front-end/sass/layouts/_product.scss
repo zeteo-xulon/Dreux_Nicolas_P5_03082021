@@ -51,7 +51,18 @@
     font-style: italic;
   }
 }
-
+.product__quantity__box{
+  display:flex;
+  flex-flow: column-reverse wrap;
+  & .product__quantity{
+    font-size: clamp(1rem, 2vw, 3rem);
+  }
+}
+.quantity--error-message{
+    content: 'Le stock maximal est atteint';
+    color: red;
+    font-size: clamp(10px, 1rem, 3rem);
+}
 
 /* ================================== */
 /* 					MEDIA QUERIE							*/

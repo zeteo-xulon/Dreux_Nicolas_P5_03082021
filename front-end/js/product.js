@@ -9,6 +9,7 @@ const mainProduct = document.querySelector("main");
 // Get the id from the url
 let urlParameter = new URLSearchParams(window.location.search);
 let id = urlParameter.get("_id");
+let reachedMaxQuantity = false;
 
 // Use for stack the color option data.
 let optionColor = "";
@@ -68,11 +69,12 @@ function teddieDisplayInfo(product) {
           <h2 class="product__name">${product.name}</h2>
           <p class="product__id">Référence : ${product._id}</p>
           <label for="option__color">Choisissez votre couleur de peluche</label>
-              <select id="optionColor">
-                ${optionColor}
-                </select>
-          <input type="number" name="product__quantity" id="productQuantity" min="0" max="9" value="1" />
-        
+          <select id="optionColor">
+            ${optionColor}
+          </select>
+					<div class="product__quantity__box">
+          	<input type="number" name="product__quantity" class ="product__quantity" id="productQuantity" min="0" max="9" value="1" />
+					</div>
           <aside class="product__description">
             <h3 class="product__title">Description</h3>
             <p class="product__description__paragraph">${
@@ -81,7 +83,9 @@ function teddieDisplayInfo(product) {
           </aside>
 
           <div class="center-box">
-            <p class="product__price">${formatter.format(parseInt(product.price) / 100)}</p>
+            <p class="product__price">${formatter.format(
+							parseInt(product.price) / 100
+						)}</p>
             <button class="btn" id="productSubmit">Ajouter au panier</button>
           </div>
 
@@ -102,24 +106,46 @@ const displayErrorMessage = () => {
 //----------------
 // Send to localStorage the information of the product, id, color and quantity.
 async function submit() {
-	const productColor = document.getElementById("optionColor").value;
-	const productQuantityPointer = document.getElementById("productQuantity");
 	const submitButton = document.getElementById("productSubmit");
-	let productQuantity = "";
-	//on click, it will collect all the data
-	submitButton.onclick = function (data) {
+
+	submitButton.onclick = (data) => {
+		const productColor = document.getElementById("optionColor").value;
+		const productQuantityPointer =
+			document.getElementById("productQuantity").value;
 		let productItem = {
 			id: id,
 			color: productColor,
-			quantity: productQuantity,
+			quantity: productQuantityPointer,
 		};
 		let productSerialized = JSON.stringify(productItem);
 		localStorage.setItem("productItem", productSerialized);
 	};
 }
 
-function getQuantityValue (date) {
-	
+async function quantityChecker() {
+
+	let quantity = document.getElementById("productQuantity").value;
+
+	quantity.addEventListener('change', (val) => {
+	if (val > 9) {
+		reachedMaxQuantity = true;
+	}
+})
 }
 
 //=======================================
+/*LOGIQUE DE LA FUNCTION DE VERIF
+* - - - - - - - - - - - - - - - -
+* Si l'id n'est pas déjà dans le tableau
+*	 push du produit dans le tableau du localStorage
+*	Si l'id est dans le tableau
+*			Si la couleur n'est pas la même
+* 		push du produit dans le tableau du localStorage
+*			Si la couleur et l'id sont les même
+*					Si la quantité est >= a 9
+*					message d'alerte "La quantité maximal est atteinte."
+*					Si la quantité est < 9 && si la quantité à push + quantité déjà dans l'objet >= 9
+*					quantité === 9
+*					sinon quantité de l'objet + quantité à push
+*							
+*/
