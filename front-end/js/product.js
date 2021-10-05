@@ -20,26 +20,24 @@ let getColor = "";
 //=====================================
 
 //Display the teddie with it's information and specificities.
-function fetchData() {
-	fetch(url + "/" + id)
-		.then((res) => res.json())
-		.then((product) => {
-			// (1) | playing the loop to get the color before injecting HTML.
-			loopColor(product);
 
-			// (2) | Injecting HTML here.
-			mainProduct.innerHTML = teddieDisplayInfo(product);
+fetch(url + "/" + id)
+	.then((res) => res.json())
+	.then((product) => {
+		// (1) | playing the loop to get the color before injecting HTML.
+		loopColor(product);
 
-			// (2) | Initialize the listener to store data in the LocalStorage for the cart page.
-			submit();
-		})
-		.catch((err) => {
-			console.log(err);
-			//Display an information for the user that teddies could not load.
-			displayErrorMessage();
-		});
-}
-fetchData();
+		// (2) | Injecting HTML here.
+		mainProduct.innerHTML = teddieDisplayInfo(product);
+
+		// (2) | Initialize the listener to store data in the LocalStorage for the cart page.
+		submit();
+	})
+	.catch((err) => {
+		console.log(err);
+		//Display an information for the user that teddies could not load.
+		displayErrorMessage();
+	});
 
 /*=====================================================
  *       FUNCTION LIST
@@ -105,24 +103,25 @@ const displayErrorMessage = () => {
 
 //----------------
 // Send to localStorage the information of the product, id, color and quantity.
-async function submit() {
+function submit() {
 	const submitButton = document.getElementById("productSubmit");
 
 	submitButton.onclick = (data) => {
 		const productColor = document.getElementById("optionColor").value;
 		const productQuantityPointer =
 			document.getElementById("productQuantity").value;
-		let productItem = {
+		let productItem = [];
+		productItem.push({
 			id: id,
 			color: productColor,
 			quantity: productQuantityPointer,
-		};
+		});
 		let productSerialized = JSON.stringify(productItem);
 		localStorage.setItem("productItem", productSerialized);
 	};
 }
 
-async function quantityChecker() {
+function quantityChecker() {
 	let quantity = document.getElementById("productQuantity").value;
 
 	quantity.addEventListener("change", (val) => {
@@ -162,5 +161,13 @@ function displayMaxQuantityMessage() {
  *
  */
 function checkLocalStorage() {
+	const productColor = document.getElementById("optionColor").value;
 	let array = localStorage();
+	for (item of array) {
+		if (item.id != id && item.color != productColor) {
+			if (item.quantity >= 9) {
+				alert("La quantité maximal est atteinte");
+			}
+		}
+	}
 }
