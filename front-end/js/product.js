@@ -123,29 +123,44 @@ async function submit() {
 }
 
 async function quantityChecker() {
-
 	let quantity = document.getElementById("productQuantity").value;
 
-	quantity.addEventListener('change', (val) => {
-	if (val > 9) {
-		reachedMaxQuantity = true;
-	}
-})
+	quantity.addEventListener("change", (val) => {
+		if (val > 9) {
+			reachedMaxQuantity = true;
+			displayMaxQuantityMessage();
+		}
+	});
 }
 
+function displayMaxQuantityMessage() {
+	const quantityBox = document.querySelector(".product__quantity__box");
+
+	if (reachedMaxQuantity === true) {
+		quantityBox.innerHTML += `<p class="">La quantité maximale est atteinte</p>`;
+	}
+}
 //=======================================
 /*LOGIQUE DE LA FUNCTION DE VERIF
-* - - - - - - - - - - - - - - - -
-* Si l'id n'est pas déjà dans le tableau
-*	 push du produit dans le tableau du localStorage
-*	Si l'id est dans le tableau
-*			Si la couleur n'est pas la même
-* 		push du produit dans le tableau du localStorage
-*			Si la couleur et l'id sont les même
-*					Si la quantité est >= a 9
-*					message d'alerte "La quantité maximal est atteinte."
-*					Si la quantité est < 9 && si la quantité à push + quantité déjà dans l'objet >= 9
-*					quantité === 9
-*					sinon quantité de l'objet + quantité à push
-*							
-*/
+ * - - - - - - - - - - - - - - - -
+ * Si l'id n'est pas déjà dans le tableau
+ *	 push du produit dans le tableau du localStorage
+ *	Si l'id est dans le tableau
+ *			Si la couleur n'est pas la même
+ * 		push du produit dans le tableau du localStorage
+ *			Si la couleur et l'id sont les même
+ *					Si la quantité est >= a 9
+ *					message d'alerte "La quantité maximal est atteinte."
+ *					Si la quantité est < 9 && si la quantité à push + quantité déjà dans l'objet >= 9
+ *					quantité === 9
+ *					sinon quantité de l'objet + quantité à push
+ *
+ *- - - - - - - - - - - - - - - - - - - - - - - - - -
+ *	function pour checker, pour insérér, pour modifier la quantité.
+ *	Donc 3 fonctions ?
+ * Est ce que j
+ *
+ */
+function checkLocalStorage() {
+	let array = localStorage();
+}
