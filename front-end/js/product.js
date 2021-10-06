@@ -9,33 +9,34 @@ const mainProduct = document.querySelector("main");
 // Get the id from the url
 let urlParameter = new URLSearchParams(window.location.search);
 let id = urlParameter.get("_id");
-let reachedMaxQuantity = false;
 
 // Use for stack the color option data.
 let optionColor = "";
 let getColor = "";
 
+//Variable for checking algorithm
+let reachedMaxQuantity = false;
+let productArray = [];
+
 //=====================================
 //        SCENARIO
 //=====================================
 
-//Display the teddie with it's information and specificities.
-
+/*Display the teddie with it's information and specificities.
+* (1) | playing the loop to get the color before injecting HTML.
+* (2) | Injecting HTML.
+* (3) | Initialize submit button to store data in the LocalStorage for the cart page.
+* (!) | In case of error, it display an information for the user that teddies could not load.
+*/
 fetch(url + "/" + id)
 	.then((res) => res.json())
 	.then((product) => {
-		// (1) | playing the loop to get the color before injecting HTML.
 		loopColor(product);
-
-		// (2) | Injecting HTML here.
 		mainProduct.innerHTML = teddieDisplayInfo(product);
-
-		// (2) | Initialize the listener to store data in the LocalStorage for the cart page.
 		submit();
 	})
 	.catch((err) => {
 		console.log(err);
-		//Display an information for the user that teddies could not load.
 		displayErrorMessage();
 	});
 
@@ -93,7 +94,6 @@ function teddieDisplayInfo(product) {
       `;
 }
 
-//----------------
 // will display a H2 information message for the user if fetch catch an error.
 const displayErrorMessage = () => {
 	mainProduct.innerHTML = `
@@ -101,25 +101,28 @@ const displayErrorMessage = () => {
     `;
 };
 
-//----------------
-// Send to localStorage the information of the product, id, color and quantity.
+/*--------------------------------------------------------------------------------
+ *																		SUBMIT
+ *---------------------------------------------------------------------------------
+ * Send to localStorage the information of the product, id, color and quantity.
+ */
 function submit() {
 	const submitButton = document.getElementById("productSubmit");
 
 	submitButton.onclick = (data) => {
-		const productColor = document.getElementById("optionColor").value;
-		const productQuantityPointer =
-			document.getElementById("productQuantity").value;
-		let productItem = [];
-		productItem.push({
+		const colorPointer = document.getElementById("optionColor").value;
+		const QuantityPointer = document.getElementById("productQuantity").value;
+		productArray.push({
 			id: id,
-			color: productColor,
-			quantity: productQuantityPointer,
+			color: colorPointer,
+			quantity: QuantityPointer,
 		});
-		let productSerialized = JSON.stringify(productItem);
-		localStorage.setItem("productItem", productSerialized);
+		productArray = JSON.stringify(productArray);
+		localStorage.setItem("productItem", productArray);
 	};
 }
+
+// ---------------------------------------------------------------------------------
 
 function quantityChecker() {
 	let quantity = document.getElementById("productQuantity").value;
