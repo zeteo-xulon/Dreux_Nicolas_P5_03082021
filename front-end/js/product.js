@@ -23,11 +23,11 @@ let productArray = [];
 //=====================================
 
 /*Display the teddie with it's information and specificities.
-* (1) | playing the loop to get the color before injecting HTML.
-* (2) | Injecting HTML.
-* (3) | Initialize submit button to store data in the LocalStorage for the cart page.
-* (!) | In case of error, it display an information for the user that teddies could not load.
-*/
+ * (1) | playing the loop to get the color before injecting HTML.
+ * (2) | Injecting HTML.
+ * (3) | Initialize submit button to store data in the LocalStorage for the cart page.
+ * (!) | In case of error, it display an information for the user that teddies could not load.
+ */
 fetch(url + "/" + id)
 	.then((res) => res.json())
 	.then((product) => {
@@ -44,15 +44,113 @@ fetch(url + "/" + id)
  *       FUNCTION LIST
  *====================================================*/
 
-// (1) | A loop for to go throught all the color in the list and add it.
+// will display a H2 information message for the user if fetch catch an error.
+const displayErrorMessage = () => {
+	mainProduct.innerHTML = `
+    <h2>Veuillez réessayer utltérieumenent, une erreur s'est produite.</h2>
+    `;
+};
+
+// | A loop for to go throught all the color in the list and add it.
 function loopColor(param) {
 	for (let color of param.colors) {
 		optionColor += `<option value="${color}">${color}</option>`;
 	}
 }
 
-//----------------
-// (2) | Display all information of the teddie in the html main__product
+/*--------------------------------------------------------------------------------
+ *																		SUBMIT
+ *---------------------------------------------------------------------------------
+ * Send to localStorage the information of the product, id, color and quantity.
+ */
+function submit() {
+	const submitButton = document.getElementById("productSubmit");
+	submitButton.onclick = (data) => {
+		const colorPointer = document.getElementById("optionColor").value;
+		const QuantityPointer = document.getElementById("productQuantity").value;
+		let objectToAdd = {
+			id: id,
+			color: colorPointer,
+			quantity: QuantityPointer,
+		};
+
+		if (localStorage.length > 0) {
+			storageToArray();
+			/* Ici je vais vouloir mettre a part les objets qui auront le même
+			 * Id que le produit de la page.
+			 * Puis, je vais vouloir encore checker si dans ce tableau mis a part
+			 * il y a un objet avec la couleur du produit que j'essaie d'envoyer
+			 * Puis je verifierais si la quantité est = ou inferieur a 9 en ajoutant
+			 * la valeur de quantité de l'objet que j'essaie d'envoyer.
+			 * si oui, alors j'ai besoin d'ajouter la valeur dans l'objet a envoyer
+			 * si non, je dois fixer la valeur à 9, et retourner un message d'info
+			 * disant que la quantité maximum est de 9
+			 */
+			let firstFiltredArray = productArray.filter(
+				(e) => e.id === objectToAdd.id
+			);
+			let treatedArray = firstFiltredArray.filter(
+				(e) => e.color === objectToAdd.color
+			);
+			if (treatedArray.length === 0) {
+				arrayToStorage(objectToAdd);
+			}
+			if (treatedArray === 1) {
+				//Je dois ajouter une ligne pour seulement ajouter la quantité, en verifiant
+				// que la valeur reste inférieur ou égale à 9.
+			}
+			return (productArray = []);
+		}
+		if (localStorage.length === 0) {
+			arrayToStorage(objectToAdd);
+			return (productArray = []);
+		}
+
+		// document.location.href = "./cart.html";
+	};
+}
+
+function foundId(item, check) {
+	return (item.id = check.id);
+}
+
+function storageToArray() {
+	let getToArray = localStorage.getItem("productItem");
+	let parseToArray = JSON.parse(getToArray);
+	productArray = parseToArray;
+	return productArray;
+}
+
+function arrayToStorage(teddieObject) {
+	productArray.push(teddieObject);
+	console.log(productArray);
+	productArray = JSON.stringify(productArray);
+	localStorage.setItem("productItem", productArray);
+	productArray = JSON.parse(productArray);
+	return productArray;
+}
+// ---------------------------------------------------------------------------------
+
+function quantityChecker() {
+	let quantity = document.getElementById("productQuantity").value;
+
+	quantity.addEventListener("change", (val) => {
+		if (val > 9) {
+			reachedMaxQuantity = true;
+			displayMaxQuantityMessage();
+		}
+	});
+}
+
+function displayMaxQuantityMessage() {
+	const quantityBox = document.querySelector(".product__quantity__box");
+
+	if (reachedMaxQuantity === true) {
+		quantityBox.innerHTML += `<p class="">La quantité maximale est atteinte</p>`;
+	}
+}
+
+//- - - - - - - - - - - - - - - - - -
 function teddieDisplayInfo(product) {
 	return `
       <section class="product-card">
@@ -92,85 +190,4 @@ function teddieDisplayInfo(product) {
     
     </section>
       `;
-}
-
-// will display a H2 information message for the user if fetch catch an error.
-const displayErrorMessage = () => {
-	mainProduct.innerHTML = `
-    <h2>Veuillez réessayer utltérieumenent, une erreur s'est produite.</h2>
-    `;
-};
-
-/*--------------------------------------------------------------------------------
- *																		SUBMIT
- *---------------------------------------------------------------------------------
- * Send to localStorage the information of the product, id, color and quantity.
- */
-function submit() {
-	const submitButton = document.getElementById("productSubmit");
-
-	submitButton.onclick = (data) => {
-		const colorPointer = document.getElementById("optionColor").value;
-		const QuantityPointer = document.getElementById("productQuantity").value;
-		productArray.push({
-			id: id,
-			color: colorPointer,
-			quantity: QuantityPointer,
-		});
-		productArray = JSON.stringify(productArray);
-		localStorage.setItem("productItem", productArray);
-	};
-}
-
-// ---------------------------------------------------------------------------------
-
-function quantityChecker() {
-	let quantity = document.getElementById("productQuantity").value;
-
-	quantity.addEventListener("change", (val) => {
-		if (val > 9) {
-			reachedMaxQuantity = true;
-			displayMaxQuantityMessage();
-		}
-	});
-}
-
-function displayMaxQuantityMessage() {
-	const quantityBox = document.querySelector(".product__quantity__box");
-
-	if (reachedMaxQuantity === true) {
-		quantityBox.innerHTML += `<p class="">La quantité maximale est atteinte</p>`;
-	}
-}
-//=======================================
-/*LOGIQUE DE LA FUNCTION DE VERIF
- * - - - - - - - - - - - - - - - -
- * Si l'id n'est pas déjà dans le tableau
- *	 push du produit dans le tableau du localStorage
- *	Si l'id est dans le tableau
- *			Si la couleur n'est pas la même
- * 		push du produit dans le tableau du localStorage
- *			Si la couleur et l'id sont les même
- *					Si la quantité est >= a 9
- *					message d'alerte "La quantité maximal est atteinte."
- *					Si la quantité est < 9 && si la quantité à push + quantité déjà dans l'objet >= 9
- *					quantité === 9
- *					sinon quantité de l'objet + quantité à push
- *
- *- - - - - - - - - - - - - - - - - - - - - - - - - -
- *	function pour checker, pour insérér, pour modifier la quantité.
- *	Donc 3 fonctions ?
- * Est ce que j
- *
- */
-function checkLocalStorage() {
-	const productColor = document.getElementById("optionColor").value;
-	let array = localStorage();
-	for (item of array) {
-		if (item.id != id && item.color != productColor) {
-			if (item.quantity >= 9) {
-				alert("La quantité maximal est atteinte");
-			}
-		}
-	}
 }
