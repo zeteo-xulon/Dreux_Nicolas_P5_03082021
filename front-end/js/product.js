@@ -15,7 +15,6 @@ let optionColor = "";
 let getColor = "";
 
 //Variable for checking algorithm
-let reachedMaxQuantity = false;
 let productArray = [];
 
 //=====================================
@@ -25,7 +24,7 @@ let productArray = [];
 /*Display the teddie with it's information and specificities.
  * (1) | playing the loop to get the color before injecting HTML.
  * (2) | Injecting HTML.
- * (3) | Initialize submit button to store data in the LocalStorage for the cart page.
+ * (3) | Initialize submit button that will check each time the product and localStorage object(s).
  * (!) | In case of error, it display an information for the user that teddies could not load.
  */
 fetch(url + "/" + id)
@@ -33,7 +32,7 @@ fetch(url + "/" + id)
 	.then((product) => {
 		loopColor(product);
 		mainProduct.innerHTML = teddieDisplayInfo(product);
-		submit();
+		submitChecker();
 	})
 	.catch((err) => {
 		console.log(err);
@@ -63,7 +62,7 @@ function loopColor(param) {
  *---------------------------------------------------------------------------------
  * Send to localStorage the information of the product, id, color and quantity.
  */
-function submit() {
+function submitChecker() {
 	const submitButton = document.getElementById("productSubmit");
 	submitButton.onclick = (data) => {
 		const colorPointer = document.getElementById("optionColor").value;
@@ -76,28 +75,58 @@ function submit() {
 
 		if (localStorage.length > 0) {
 			storageToArray();
-			/* Ici je vais vouloir mettre a part les objets qui auront le même
-			 * Id que le produit de la page.
-			 * Puis, je vais vouloir encore checker si dans ce tableau mis a part
-			 * il y a un objet avec la couleur du produit que j'essaie d'envoyer
-			 * Puis je verifierais si la quantité est = ou inferieur a 9 en ajoutant
-			 * la valeur de quantité de l'objet que j'essaie d'envoyer.
-			 * si oui, alors j'ai besoin d'ajouter la valeur dans l'objet a envoyer
-			 * si non, je dois fixer la valeur à 9, et retourner un message d'info
-			 * disant que la quantité maximum est de 9
-			 */
+
 			let firstFiltredArray = productArray.filter(
 				(e) => e.id === objectToAdd.id
 			);
-			let treatedArray = firstFiltredArray.filter(
+			let secondFiltreddArray = firstFiltredArray.filter(
 				(e) => e.color === objectToAdd.color
 			);
-			if (treatedArray.length === 0) {
+			if (secondFiltreddArray.length === 0) {
 				arrayToStorage(objectToAdd);
 			}
-			if (treatedArray === 1) {
-				//Je dois ajouter une ligne pour seulement ajouter la quantité, en verifiant
-				// que la valeur reste inférieur ou égale à 9.
+			if (secondFiltreddArray.length === 1) {
+				/* 1 ajouter la quantité du produit filtré restant
+				 * parseInt(productArray[0].quantity) + parseInt(objectToAdd.quantity)
+				 * Si quantityA + quantityB >=9, quantityB = 9; et affichage d'un message
+				 * quantité maximum en stock atteinte.
+				 * si quantityA + quantityB < 9, quantityB = quantityA + quantityB;
+				 * Puis construire un premier tableau avec tous les éléments qui n'ont
+				 * ni l'id, ni la couleur du produit => arrayWithoutNewProduct;
+				 * Puis il faut tout combiner.
+				 * Donc arrayWithNewProduct = arrayWithoutNewProduct.unshiftt(objectToAdd);
+				 * Puis productArray = JSON.stringify(arrayWithNewProduct);
+				 */
+				let quantityA = parseInt(productArray[0].quantity);
+				let quantityB = parseInt(objectToAdd.quantity);
+
+				//Recreate an array with all the products excepts the one submitted
+				let arrayWithoutProduct = productArray.filter(
+					(e) => e.id !== objectToAdd.id
+				);
+				let b = productArray.filter((e) => e.id === objectToAdd.id);
+				let c = b.filter((e) => e.color !== objectToAdd.color);
+
+				for (let i = 0; i < c.length; i++) {
+					arrayWithoutProduct.unshift(c[i]);
+				}
+
+				quantityB = quantityA + quantityB;
+				if (quantityB >= 9) {
+					document.getElementById("productQuantity").value = 9;
+					quantityB = 9;
+					objectToAdd.quantity = "9";
+					arrayWithoutProduct.unshift(objectToAdd);
+					arrayWithProduct = JSON.stringify(arrayWithoutProduct)
+					localStorage.setItem("productItem", arrayWithProduct);
+					displayMaxQuantityMessage();
+				}
+				if (quantityB < 9){
+					objectToAdd.quantity = quantityB;
+					arrayWithoutProduct.unshift(objectToAdd);
+					arrayWithProduct = JSON.stringify(arrayWithoutProduct)
+					localStorage.setItem("productItem", arrayWithProduct);
+				}
 			}
 			return (productArray = []);
 		}
@@ -109,6 +138,8 @@ function submit() {
 		// document.location.href = "./cart.html";
 	};
 }
+
+//======  =======  =======  =======  =======
 
 function foundId(item, check) {
 	return (item.id = check.id);
@@ -122,7 +153,7 @@ function storageToArray() {
 }
 
 function arrayToStorage(teddieObject) {
-	productArray.push(teddieObject);
+	productArray.unshift(teddieObject);
 	console.log(productArray);
 	productArray = JSON.stringify(productArray);
 	localStorage.setItem("productItem", productArray);
@@ -136,7 +167,6 @@ function quantityChecker() {
 
 	quantity.addEventListener("change", (val) => {
 		if (val > 9) {
-			reachedMaxQuantity = true;
 			displayMaxQuantityMessage();
 		}
 	});
@@ -144,10 +174,7 @@ function quantityChecker() {
 
 function displayMaxQuantityMessage() {
 	const quantityBox = document.querySelector(".product__quantity__box");
-
-	if (reachedMaxQuantity === true) {
-		quantityBox.innerHTML += `<p class="">La quantité maximale est atteinte</p>`;
-	}
+	quantityBox.innerHTML += `<p class="product__quantity--error-message">La quantité maximale est atteinte</p>`;
 }
 
 //- - - - - - - - - - - - - - - - - -

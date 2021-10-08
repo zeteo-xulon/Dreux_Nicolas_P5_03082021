@@ -3,6 +3,7 @@
 //---------------------------------
 const serverAdress = "http://localhost:3000/api/teddies";
 const teddieList = document.querySelector(".teddie__list");
+
 //---------------------------------
 //						SCENARIO
 //---------------------------------
@@ -14,10 +15,10 @@ fetch(serverAdress)
 		console.log(err);
 		teddieList.textContent = "Les nounours n'ont pas pu être chargé";
 	});
+
 //---------------------------------
 //						FUNCTION
 //---------------------------------
-
 //the ressources to incorporate in the diplay function
 const htmlInjection = (teddie) => {
 	return `

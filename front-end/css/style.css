@@ -235,16 +235,18 @@ body {
 
 .product__quantity__box {
   display: flex;
-  flex-flow: column-reverse wrap;
+  flex-flow: column wrap;
 }
 .product__quantity__box .product__quantity {
   font-size: clamp(1rem, 2vw, 3rem);
 }
 
-.quantity--error-message {
-  content: "Le stock maximal est atteint";
+.product__quantity--error-message {
   color: red;
+  margin: 0px;
+  padding-left: 5px;
   font-size: clamp(10px, 1rem, 3rem);
+  font-style: italic;
 }
 
 /* ================================== */
