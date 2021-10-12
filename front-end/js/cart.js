@@ -6,7 +6,7 @@ const cartArticleContainer = document.getElementById("cartArticleList");
 const items = localStorage.productItem;
 const itemQuantity = parseInt(items.quantity);
 const messageBox = document.getElementById("display__message");
-const totalPrice = document.getElementById('totalPrice')
+const totalPrice = document.getElementById("totalPrice");
 
 let incartProduct = JSON.parse(localStorage.getItem("productItem"));
 let productInCart = false;
@@ -36,14 +36,13 @@ function localStorageQuantityCheck(item) {
 			return (productInCart = true);
 		}
 	}
-	if (item.quantity === 0) {
-		return (productInCart = false);
-	}
-	return (productInCart = true);
+	item.quantity === 0 ? productInCart = false : productInCart = true;
 }
 
 function priceCalculator() {
-	let quantityProductList = document.querySelectorAll(".cart__product__quantity");
+	let quantityProductList = document.querySelectorAll(
+		".cart__product__quantity"
+	);
 	let allPrice = document.querySelectorAll(".cart__product__price");
 	let total = 0;
 
@@ -52,8 +51,8 @@ function priceCalculator() {
 		let price = parseInt(allPrice[i].textContent);
 		let sum = quantity * price;
 		total += sum;
-		totalPrice.innerHTML = formatter.format(total) + "€";
 	}
+	totalPrice.innerHTML = formatter.format(total) + "€";
 }
 
 function cartInjection(item) {
@@ -90,7 +89,7 @@ function injectTeddies(item) {
 		<div class="cart__product__number__box">
 			<input type="number" name="product__quantity" class="cart__product__quantity" min="0" max="9" value='${
 				item.quantity
-			}'>
+			}' onchange='priceCalculator()'>
 			<p class="cart__product__price">${formatter.format(
 				parseInt(item.price) / 100
 			)}</p>

@@ -301,7 +301,8 @@ body {
   align-items: center;
   border: 2px solid #8f5bfe;
   height: clamp(90px, 20vw, 180px);
-  gap: 1rem;
+  gap: clamp(3px, 0.4rem, 5vw);
+  padding: 0px 10px 0px 0px;
 }
 .cart__article .cart__link__product {
   height: 100%;
@@ -318,12 +319,12 @@ body {
 }
 .cart__article .cart__product__box {
   height: 100%;
-  padding: 10px 0px;
+  padding: 5px 0px;
   width: clamp(90px, 30vw, 350px);
 }
 .cart__article .cart__product__box .cart__product__name {
   margin: 3px 0px;
-  font-size: clamp(16px, 1.7rem, 5vw);
+  font-size: clamp(16px, 1.7rem, 4vw);
   overflow-wrap: break-word;
 }
 .cart__article .cart__product__box .cart__product__id {
@@ -334,13 +335,13 @@ body {
 }
 .cart__article .cart__product__box .cart__product__color {
   margin: 3px 0px;
-  font-size: clamp(16px, 1.5rem, 2.5vw);
+  font-size: clamp(12px, 1.5rem, 2.5vw);
   overflow-wrap: break-word;
   font-weight: bold;
 }
 .cart__article .cart__product__number__box .cart__product__quantity {
   font-size: clamp(10px, 1.5rem, 3vw);
-  width: clamp(32px, 2.5rem, 3vw);
+  width: clamp(32px, 5rem, 9vw);
 }
 .cart__article .cart__product__number__box .cart__product__price {
   width: 5rem;
@@ -353,6 +354,56 @@ body {
   margin: auto;
   gap: 1rem;
   font-size: clamp(0.8rem, 1.1rem, 1.7rem);
+}
+
+.shade-screen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 2;
+  height: 100%;
+  width: 100%;
+}
+.shade-screen .form__card {
+  position: fixed;
+  background-color: white;
+  height: 80%;
+  width: 80%;
+  border: 5px solid #8f5bfe;
+  overflow: hidden;
+  border-radius: 20px;
+  z-index: 3;
+}
+
+.form {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  gap: 0.7rem;
+  padding: clamp(16px,11rem,6vw);
+  font-size: clamp(16px,2rem,1.7vw);
+}
+.form .form__exit {
+  position: absolute;
+  top: 12px;
+  right: 25px;
+  cursor: pointer;
+  font-size: clamp(16px,1.5rem,3vw);
+  margin: 0px;
+}
+.form .form__title {
+  font-weight: bold;
+  font-size: clamp(20px,2rem,2vw);
+  margin: 5px 0px;
+}
+.form .form__button {
+  display: flex;
+  justify-content: center;
+  margin: auto;
 }
 
 /*====================================
