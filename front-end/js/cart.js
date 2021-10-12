@@ -6,6 +6,7 @@ const cartArticleContainer = document.getElementById("cartArticleList");
 const items = localStorage.productItem;
 const itemQuantity = parseInt(items.quantity);
 const messageBox = document.getElementById("display__message");
+const totalPrice = document.getElementById('totalPrice')
 
 let incartProduct = JSON.parse(localStorage.getItem("productItem"));
 let productInCart = false;
@@ -21,7 +22,7 @@ for (let i = 0; i < incartProduct.length; i++) {
 	htmlInjector(item);
 	localStorageQuantityCheck(item);
 }
-cartQuantityCalculator();
+priceCalculator();
 
 //=============================
 //      FUNCTION
@@ -41,15 +42,17 @@ function localStorageQuantityCheck(item) {
 	return (productInCart = true);
 }
 
-function cartQuantityCalculator(item) {
-	let quantityProductList = document.querySelectorAll(
-		".cart__product__quantity"
-	);
+function priceCalculator() {
+	let quantityProductList = document.querySelectorAll(".cart__product__quantity");
+	let allPrice = document.querySelectorAll(".cart__product__price");
+	let total = 0;
+
 	for (let i = 0; i < quantityProductList.length; i++) {
-		priceList.push(quantityProductList[i].valueAsNumber);
-	}
-	for (let i = 0; i < priceList.length; i++) {
-		totalQuantity += priceList[i];
+		let quantity = quantityProductList[i].valueAsNumber;
+		let price = parseInt(allPrice[i].textContent);
+		let sum = quantity * price;
+		total += sum;
+		totalPrice.innerHTML = formatter.format(total) + "€";
 	}
 }
 
