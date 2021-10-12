@@ -10,11 +10,9 @@ const mainProduct = document.querySelector("main");
 let urlParameter = new URLSearchParams(window.location.search);
 let id = urlParameter.get("_id");
 
-// Use for stack the color option data.
+// stocker
 let optionColor = "";
 let getColor = "";
-
-//Variable for checking algorithm
 let productArray = [];
 
 //=====================================
@@ -31,8 +29,8 @@ fetch(url + "/" + id)
 	.then((res) => res.json())
 	.then((product) => {
 		loopColor(product);
-		mainProduct.innerHTML = teddieDisplayInfo(product);
-		submitChecker();
+		injectHtml(product);
+		submitChecker(product);
 	})
 	.catch((err) => {
 		console.log(err);
@@ -42,134 +40,8 @@ fetch(url + "/" + id)
 /*=====================================================
  *       FUNCTION LIST
  *====================================================*/
-
-// will display a H2 information message for the user if fetch catch an error.
-const displayErrorMessage = () => {
-	mainProduct.innerHTML = `
-    <h2>Veuillez réessayer utltérieumenent, une erreur s'est produite.</h2>
-    `;
-};
-
-// | A loop for to go throught all the color in the list and add it.
-function loopColor(param) {
-	for (let color of param.colors) {
-		optionColor += `<option value="${color}">${color}</option>`;
-	}
-}
-
-/*--------------------------------------------------------------------------------
- *																		SUBMIT
- *---------------------------------------------------------------------------------
- * Send to localStorage the information of the product, id, color and quantity.
- */
-function submitChecker() {
-	const submitButton = document.getElementById("productSubmit");
-	submitButton.onclick = (data) => {
-		const colorPointer = document.getElementById("optionColor").value;
-		const QuantityPointer = document.getElementById("productQuantity").value;
-		let objectToAdd = {
-			id: id,
-			color: colorPointer,
-			quantity: QuantityPointer,
-		};
-
-		if (localStorage.length > 0) {
-			storageToArray();
-
-			let firstFiltredArray = productArray.filter(
-				(e) => e.id === objectToAdd.id
-			);
-			let secondFiltreddArray = firstFiltredArray.filter(
-				(e) => e.color === objectToAdd.color
-			);
-			if (secondFiltreddArray.length === 0) {
-				arrayToStorage(objectToAdd);
-			}
-			if (secondFiltreddArray.length === 1) {
-				/* 1 ajouter la quantité du produit filtré restant
-				 * parseInt(productArray[0].quantity) + parseInt(objectToAdd.quantity)
-				 * Si quantityA + quantityB >=9, quantityB = 9; et affichage d'un message
-				 * quantité maximum en stock atteinte.
-				 * si quantityA + quantityB < 9, quantityB = quantityA + quantityB;
-				 * Puis construire un premier tableau avec tous les éléments qui n'ont
-				 * ni l'id, ni la couleur du produit => arrayWithoutNewProduct;
-				 * Puis il faut tout combiner.
-				 * Donc arrayWithNewProduct = arrayWithoutNewProduct.unshiftt(objectToAdd);
-				 * Puis productArray = JSON.stringify(arrayWithNewProduct);
-				 */
-				let quantityA = parseInt(productArray[0].quantity);
-				let quantityB = parseInt(objectToAdd.quantity);
-
-				//Recreate an array with all the products excepts the one submitted
-				let arrayWithoutProduct = productArray.filter(
-					(e) => e.id !== objectToAdd.id
-				);
-				let b = productArray.filter((e) => e.id === objectToAdd.id);
-				let c = b.filter((e) => e.color !== objectToAdd.color);
-
-				for (let i = 0; i < c.length; i++) {
-					arrayWithoutProduct.unshift(c[i]);
-				}
-
-				quantityB = quantityA + quantityB;
-				if (quantityB >= 9) {
-					document.getElementById("productQuantity").value = 9;
-					quantityB = 9;
-					objectToAdd.quantity = "9";
-					arrayWithoutProduct.unshift(objectToAdd);
-					arrayWithProduct = JSON.stringify(arrayWithoutProduct)
-					localStorage.setItem("productItem", arrayWithProduct);
-					displayMaxQuantityMessage();
-				}
-				if (quantityB < 9){
-					objectToAdd.quantity = quantityB;
-					arrayWithoutProduct.unshift(objectToAdd);
-					arrayWithProduct = JSON.stringify(arrayWithoutProduct)
-					localStorage.setItem("productItem", arrayWithProduct);
-				}
-			}
-			return (productArray = []);
-		}
-		if (localStorage.length === 0) {
-			arrayToStorage(objectToAdd);
-			return (productArray = []);
-		}
-
-		// document.location.href = "./cart.html";
-	};
-}
-
-//======  =======  =======  =======  =======
-
-function foundId(item, check) {
-	return (item.id = check.id);
-}
-
-function storageToArray() {
-	let getToArray = localStorage.getItem("productItem");
-	let parseToArray = JSON.parse(getToArray);
-	productArray = parseToArray;
-	return productArray;
-}
-
-function arrayToStorage(teddieObject) {
-	productArray.unshift(teddieObject);
-	console.log(productArray);
-	productArray = JSON.stringify(productArray);
-	localStorage.setItem("productItem", productArray);
-	productArray = JSON.parse(productArray);
-	return productArray;
-}
-// ---------------------------------------------------------------------------------
-
-function quantityChecker() {
-	let quantity = document.getElementById("productQuantity").value;
-
-	quantity.addEventListener("change", (val) => {
-		if (val > 9) {
-			displayMaxQuantityMessage();
-		}
-	});
+function displayErrorMessage() {
+	mainProduct.innerHTML = `<h2>Veuillez réessayer utltérieumenent, une erreur s'est produite.</h2>`;
 }
 
 function displayMaxQuantityMessage() {
@@ -177,8 +49,7 @@ function displayMaxQuantityMessage() {
 	quantityBox.innerHTML += `<p class="product__quantity--error-message">La quantité maximale est atteinte</p>`;
 }
 
-//- - - - - - - - - - - - - - - - - -
-function teddieDisplayInfo(product) {
+function displayTeddieInfo(product) {
 	return `
       <section class="product-card">
 
@@ -217,4 +88,105 @@ function teddieDisplayInfo(product) {
     
     </section>
       `;
+}
+
+function injectHtml(product) {
+	mainProduct.innerHTML = displayTeddieInfo(product);
+}
+
+function loopColor(param) {
+	for (let color of param.colors) {
+		optionColor += `<option value="${color}">${color}</option>`;
+	}
+}
+
+/*-----------------------------------------------------
+ *											SUBMIT
+ *-----------------------------------------------------
+ * Create an object to add in the local storage
+ * check the local Storage, if its not empty
+ * Create 2 array, one with the object and then update it
+ * one with all the objects except the actual one
+ * then it create a last array with everything and
+ * send it to localStorage.
+ */
+function submitChecker(product) {
+	const submitButton = document.getElementById("productSubmit");
+	submitButton.onclick = (data) => {
+		const colorPointer = document.getElementById("optionColor").value;
+		const QuantityPointer = document.getElementById("productQuantity").value;
+		let objectToAdd = {
+			id: id,
+			color: colorPointer,
+			quantity: QuantityPointer,
+			name: product.name,
+			imgUrl: product.imageUrl,
+			price: product.price,
+		};
+
+		if (localStorage.length > 0) {
+			storageToArray();
+
+			let firstFiltredArray = productArray.filter(
+				(e) => e.id === objectToAdd.id
+			);
+			let secondFiltreddArray = firstFiltredArray.filter(
+				(e) => e.color === objectToAdd.color
+			);
+			if (secondFiltreddArray.length === 0) {
+				arrayToStorage(objectToAdd);
+			}
+			if (secondFiltreddArray.length === 1) {
+				let quantityA = parseInt(productArray[0].quantity);
+				let quantityB = parseInt(objectToAdd.quantity);
+				//Recreate an array with all the products excepts the one submitted
+				let arrayWithoutProduct = productArray.filter(
+					(e) => e.id !== objectToAdd.id
+				);
+				let b = productArray.filter((e) => e.id === objectToAdd.id);
+				let c = b.filter((e) => e.color !== objectToAdd.color);
+
+				for (let i = 0; i < c.length; i++) {
+					arrayWithoutProduct.unshift(c[i]);
+				}
+
+				quantityB = quantityA + quantityB;
+				if (quantityB >= 9) {
+					document.getElementById("productQuantity").value = 9;
+					quantityB = 9;
+					objectToAdd.quantity = "9";
+					arrayWithoutProduct.unshift(objectToAdd);
+					arrayWithProduct = JSON.stringify(arrayWithoutProduct);
+					localStorage.setItem("productItem", arrayWithProduct);
+					displayMaxQuantityMessage();
+				}
+				if (quantityB < 9) {
+					objectToAdd.quantity = quantityB;
+					arrayWithoutProduct.unshift(objectToAdd);
+					arrayWithProduct = JSON.stringify(arrayWithoutProduct);
+					localStorage.setItem("productItem", arrayWithProduct);
+				}
+			}
+			productArray = [];
+			return (document.location.href = "./cart.html");
+		}
+		if (localStorage.length === 0) {
+			arrayToStorage(objectToAdd);
+			productArray = [];
+			return (document.location.href = "./cart.html");
+		}
+	};
+}
+
+function storageToArray() {
+	productArray = JSON.parse(localStorage.getItem("productItem"));
+	return productArray;
+}
+
+function arrayToStorage(teddieObject) {
+	productArray.unshift(teddieObject);
+	productArray = JSON.stringify(productArray);
+	localStorage.setItem("productItem", productArray);
+	productArray = JSON.parse(productArray);
+	return productArray;
 }
