@@ -52,7 +52,7 @@ function priceCalculator() {
 		let sum = quantity * price;
 		total += sum;
 	}
-	totalPrice.innerHTML = formatter.format(total) + "€";
+	totalPrice.innerHTML = formatter.format(total);
 }
 
 function cartInjection(item) {
