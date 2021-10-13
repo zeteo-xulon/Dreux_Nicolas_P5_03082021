@@ -7,6 +7,8 @@ const items = localStorage.productItem;
 const itemQuantity = parseInt(items.quantity);
 const messageBox = document.getElementById("display__message");
 const totalPrice = document.getElementById("totalPrice");
+const cartButton = document.getElementById("cartButton");
+const shadeContainer = document.getElementById('formDisplay');
 
 let incartProduct = JSON.parse(localStorage.getItem("productItem"));
 let productInCart = false;
@@ -23,6 +25,7 @@ for (let i = 0; i < incartProduct.length; i++) {
 	localStorageQuantityCheck(item);
 }
 priceCalculator();
+listenValidateCartButton();
 
 //=============================
 //      FUNCTION
@@ -36,7 +39,7 @@ function localStorageQuantityCheck(item) {
 			return (productInCart = true);
 		}
 	}
-	item.quantity === 0 ? productInCart = false : productInCart = true;
+	item.quantity === 0 ? (productInCart = false) : (productInCart = true);
 }
 
 function priceCalculator() {
@@ -69,10 +72,41 @@ function displayQuantityWarningMessage() {
 	messageBox.innerHTML = `<p class="message__text">La quantité maximal est de 9.</p>`;
 }
 
+function formPopUp() {
+	shadeContainer.innerHTML = injectForm();
+	let shade = document.querySelector(".shade-screen");
+	let exit = document.getElementById('formExit');
+	exit.addEventListener("click", (r) => shade.remove());
+}
+
 function htmlInjector(item) {
 	cartArticleContainer.innerHTML += injectTeddies(item);
 }
-
+function injectForm() {
+	return `
+	<div class="shade-screen">
+	<article class="form__card">
+		<form action="" method="get" class="form">
+				<p class="form__exit" id="formExit">x</p>
+				<p class="form__title">Veuillez remplir vos informations de livraison</p>
+				<label for="firstname">Entrez votre prénom : </label>
+				<input type="text" name="name" id="firstname" required>
+				<label for="name">Entrez votre nom :</label>
+				<input type="text" name="name" id="name" required>
+				<label for="address">Entrez votre adresse :</label>
+				<input type="text" name="name" id="adress" required>
+				<label for="city">Ville :</label>
+				<input type="text" name="name" id="city" required>
+				<label for="email">Entrez votre adresse mail: </label>
+				<input type="email" name="email" id="email" required>
+			<div class="form__button">
+				<input type="submit" value="Commander" class="form__btn btn">
+			</div>
+		</form>
+	</article>
+</div>
+	`;
+}
 function injectTeddies(item) {
 	return `
 	<li class="cart__article">
@@ -97,4 +131,11 @@ function injectTeddies(item) {
 	</li>
   
   `;
+}
+
+function listenValidateCartButton() {
+	cartButton.addEventListener("click", (e) => {
+		priceCalculator();
+		formPopUp();
+	});
 }

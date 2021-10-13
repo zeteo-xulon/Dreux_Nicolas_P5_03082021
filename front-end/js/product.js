@@ -13,7 +13,6 @@ let id = urlParameter.get("_id");
 // stocker
 let optionColor = "";
 let getColor = "";
-let productArray = [];
 
 //=====================================
 //        SCENARIO
@@ -115,6 +114,7 @@ function submitChecker(product) {
 	submitButton.onclick = (data) => {
 		const colorPointer = document.getElementById("optionColor").value;
 		const QuantityPointer = document.getElementById("productQuantity").value;
+
 		let objectToAdd = {
 			id: id,
 			color: colorPointer,
@@ -123,33 +123,24 @@ function submitChecker(product) {
 			imgUrl: product.imageUrl,
 			price: product.price,
 		};
-
+		let array = [];
 		if (localStorage.length > 0) {
-			storageToArray();
+			array = get("productItem");
 
-			let firstFiltredArray = productArray.filter(
-				(e) => e.id === objectToAdd.id
+			let filtredArray = []
+			let arrayWithoutProduct = [];
+			filtredArray = array.filter(
+				(e) => e.id == objectToAdd.id && e.color == objectToAdd.color
 			);
-			let secondFiltreddArray = firstFiltredArray.filter(
-				(e) => e.color === objectToAdd.color
+			arrayWithoutProduct = array.filter(
+				(e) => e.id != objectToAdd.id && e.color != objectToAdd.color
 			);
-			if (secondFiltreddArray.length === 0) {
-				arrayToStorage(objectToAdd);
+			if (filtredArray.length === 0) {
+				arrayToStorage(objectToAdd, array, "productItem");
 			}
-			if (secondFiltreddArray.length === 1) {
-				let quantityA = parseInt(productArray[0].quantity);
+			if (filtredArray.length === 1) {
+				let quantityA = parseInt(filtredArray[0].quantity);
 				let quantityB = parseInt(objectToAdd.quantity);
-				//Recreate an array with all the products excepts the one submitted
-				let arrayWithoutProduct = productArray.filter(
-					(e) => e.id !== objectToAdd.id
-				);
-				let b = productArray.filter((e) => e.id === objectToAdd.id);
-				let c = b.filter((e) => e.color !== objectToAdd.color);
-
-				for (let i = 0; i < c.length; i++) {
-					arrayWithoutProduct.unshift(c[i]);
-				}
-
 				quantityB = quantityA + quantityB;
 				if (quantityB >= 9) {
 					document.getElementById("productQuantity").value = 9;
@@ -167,26 +158,25 @@ function submitChecker(product) {
 					localStorage.setItem("productItem", arrayWithProduct);
 				}
 			}
-			productArray = [];
 			return (document.location.href = "./cart.html");
 		}
 		if (localStorage.length === 0) {
-			arrayToStorage(objectToAdd);
-			productArray = [];
+			arrayToStorage(objectToAdd, array, "productItem");
 			return (document.location.href = "./cart.html");
 		}
 	};
 }
 
-function storageToArray() {
-	productArray = JSON.parse(localStorage.getItem("productItem"));
-	return productArray;
+function get(key) {
+	return JSON.parse(localStorage.getItem(key));
 }
 
-function arrayToStorage(teddieObject) {
-	productArray.unshift(teddieObject);
-	productArray = JSON.stringify(productArray);
-	localStorage.setItem("productItem", productArray);
-	productArray = JSON.parse(productArray);
-	return productArray;
+function store(key, material) {
+	localStorage.setItem(key, JSON.stringify(material));
+}
+
+function arrayToStorage(teddieObject, param, key) {
+	param.unshift(teddieObject);
+	store(key, param);
+	return param;
 }
