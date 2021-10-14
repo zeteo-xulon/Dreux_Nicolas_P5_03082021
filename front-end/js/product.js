@@ -50,12 +50,10 @@ function displayMaxQuantityMessage() {
 
 function displayTeddieInfo(product) {
 	return `
-      <section class="product-card">
+  	<section class="product-card">
 
       <div class="product__img-box" >
-        <img class="product__img" src="${
-					product.imageUrl
-				}" alt="Image du nounours ${product.name}" />
+        <img class="product__img" src="${product.imageUrl}" alt="Image du nounours ${product.name}" />
       </div>
 
       <article class="product__informations">
@@ -63,23 +61,17 @@ function displayTeddieInfo(product) {
           <h2 class="product__name">${product.name}</h2>
           <p class="product__id">Référence : ${product._id}</p>
           <label for="option__color">Choisissez votre couleur de peluche</label>
-          <select id="optionColor">
-            ${optionColor}
-          </select>
+          <select id="optionColor">${optionColor}</select>
 					<div class="product__quantity__box">
           	<input type="number" name="product__quantity" class ="product__quantity" id="productQuantity" min="0" max="9" value="1" />
 					</div>
           <aside class="product__description">
             <h3 class="product__title">Description</h3>
-            <p class="product__description__paragraph">${
-							product.description
-						}</p>
+            <p class="product__description__paragraph">${product.description}</p>
           </aside>
 
           <div class="center-box">
-            <p class="product__price">${formatter.format(
-							parseInt(product.price) / 100
-						)}</p>
+            <p class="product__price">${formatter.format(parseInt(product.price) / 100)}</p>
             <button class="btn" id="productSubmit">Ajouter au panier</button>
           </div>
 
@@ -104,7 +96,7 @@ function loopColor(param) {
  *-----------------------------------------------------
  * Create an object to add in the local storage
  * check the local Storage, if its not empty
- * Create 2 array, one with the object and then update it
+ * it create 2 array, one with the object and then update it
  * one with all the objects except the actual one
  * then it create a last array with everything and
  * send it to localStorage.
@@ -146,16 +138,12 @@ function submitChecker(product) {
 					document.getElementById("productQuantity").value = 9;
 					quantityB = 9;
 					objectToAdd.quantity = "9";
-					arrayWithoutProduct.unshift(objectToAdd);
-					arrayWithProduct = JSON.stringify(arrayWithoutProduct);
-					localStorage.setItem("productItem", arrayWithProduct);
+					arrayToStorage(objectToAdd, arrayWithoutProduct, 'productItem');
 					displayMaxQuantityMessage();
 				}
 				if (quantityB < 9) {
 					objectToAdd.quantity = quantityB;
-					arrayWithoutProduct.unshift(objectToAdd);
-					arrayWithProduct = JSON.stringify(arrayWithoutProduct);
-					localStorage.setItem("productItem", arrayWithProduct);
+					arrayToStorage(objectToAdd, arrayWithoutProduct, 'productItem');
 				}
 			}
 			return (document.location.href = "./cart.html");

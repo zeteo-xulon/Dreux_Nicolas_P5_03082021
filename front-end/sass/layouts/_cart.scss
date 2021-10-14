@@ -89,6 +89,12 @@
 		& .cart__product__price {
 			width: 5rem;
 			font-size: clamp(12px, 1.5rem, 4vw);
+			margin: 0.5rem 0px;
+		}
+		& .fa-trash-alt{
+			color: $color-primary;
+			font-size: clamp(8px, 1rem, 2vw);
+			cursor: pointer;
 		}
 	}
 }

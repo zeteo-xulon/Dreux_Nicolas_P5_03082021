@@ -8,7 +8,7 @@ const itemQuantity = parseInt(items.quantity);
 const messageBox = document.getElementById("display__message");
 const totalPrice = document.getElementById("totalPrice");
 const cartButton = document.getElementById("cartButton");
-const shadeContainer = document.getElementById('formDisplay');
+const shadeContainer = document.getElementById("formDisplay");
 
 let incartProduct = JSON.parse(localStorage.getItem("productItem"));
 let productInCart = false;
@@ -25,7 +25,16 @@ for (let i = 0; i < incartProduct.length; i++) {
 	localStorageQuantityCheck(item);
 }
 priceCalculator();
-listenValidateCartButton();
+// listenValidateCartButton();
+document.addEventListener("click", (e) => {
+	if(e.target.matches('.fa-trash-alt')){
+		console.log('you got this');
+	};
+	if(e.target.matches('#cartButton')){
+		priceCalculator();
+		formPopUp();
+	}
+})
 
 //=============================
 //      FUNCTION
@@ -75,13 +84,14 @@ function displayQuantityWarningMessage() {
 function formPopUp() {
 	shadeContainer.innerHTML = injectForm();
 	let shade = document.querySelector(".shade-screen");
-	let exit = document.getElementById('formExit');
+	let exit = document.getElementById("formExit");
 	exit.addEventListener("click", (r) => shade.remove());
 }
 
 function htmlInjector(item) {
 	cartArticleContainer.innerHTML += injectTeddies(item);
 }
+
 function injectForm() {
 	return `
 	<div class="shade-screen">
@@ -111,7 +121,9 @@ function injectTeddies(item) {
 	return `
 	<li class="cart__article">
 		<a class="cart__link__product" href="./product.html?_id=${item.id}">
-		<img class="cart__product__img" src="${item.imgUrl}">
+		<img class="cart__product__img" src="${item.imgUrl}" alt="image de la peluche ${
+		item.name
+	}">
 		</a>
 
 		<div class="cart__product__box">
@@ -127,15 +139,18 @@ function injectTeddies(item) {
 			<p class="cart__product__price">${formatter.format(
 				parseInt(item.price) / 100
 			)}</p>
+			<i class="far fa-trash-alt"></i>
 		</div>
 	</li>
   
   `;
 }
 
-function listenValidateCartButton() {
-	cartButton.addEventListener("click", (e) => {
-		priceCalculator();
-		formPopUp();
-	});
-}
+// function listenValidateCartButton() {
+// 	cartButton.addEventListener("click", (e) => {
+// 		priceCalculator();
+// 		formPopUp();
+// 	});
+// }
+
+

@@ -347,6 +347,12 @@ body {
 .cart__article .cart__product__number__box .cart__product__price {
   width: 5rem;
   font-size: clamp(12px, 1.5rem, 4vw);
+  margin: 0.5rem 0px;
+}
+.cart__article .cart__product__number__box .fa-trash-alt {
+  color: #8f5bfe;
+  font-size: clamp(8px, 1rem, 2vw);
+  cursor: pointer;
 }
 
 .cart__total__price {
