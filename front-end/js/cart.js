@@ -18,6 +18,13 @@ let totalQuantity = 0;
 //=============================
 //      SCENARIO
 //=============================
+/*
+* Begin by a loop of all the product in the localStorage,
+* It will inject the HTML relative to all the elements
+* it will check the quantity, and correct what could be wrong
+* then it will calculate the price, and begin to listen what
+* happen on screen, to delete, or go to command information step.
+*/
 
 for (let i = 0; i < incartProduct.length; i++) {
 	let item = incartProduct[i];
@@ -25,20 +32,27 @@ for (let i = 0; i < incartProduct.length; i++) {
 	localStorageQuantityCheck(item);
 }
 priceCalculator();
-// listenValidateCartButton();
-document.addEventListener("click", (e) => {
-	if(e.target.matches('.fa-trash-alt')){
-		console.log('you got this');
-	};
-	if(e.target.matches('#cartButton')){
-		priceCalculator();
-		formPopUp();
-	}
-})
+listenEvent();
 
 //=============================
 //      FUNCTION
 //=============================
+
+function listenEvent() {
+	document.addEventListener("click", (e) => {
+		let totalPrice = parseInt(document.getElementById("totalPrice").innerText);
+		if (e.target.matches(".fa-trash-alt")) {
+			removeLocal('productItem', e);
+			e.path[2].remove();
+			priceCalculator();
+		}
+		if (e.target.matches("#cartButton")) {
+			totalPrice <= 0 ? alert("Le panier est vide") : (priceCalculator(), formPopUp());
+		}
+	});
+}
+
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 function localStorageQuantityCheck(item) {
 	if (item.quantity > 0) {
@@ -83,8 +97,34 @@ function displayQuantityWarningMessage() {
 
 function formPopUp() {
 	shadeContainer.innerHTML = injectForm();
+
 	let shade = document.querySelector(".shade-screen");
 	let exit = document.getElementById("formExit");
+	
+	// let firstName = document.getElementById('firstname').value;
+	// let lastName = document.getElementById('name').value;
+	// let adress = document.getElementById('adress').value;
+	// let city = document.getElementById('city').value;
+	// let mail = document.getElementById('email').value;
+	// let submit = document.getElementById('submitForm');
+	// let contact = {
+	// 	firstName : firstName,
+	// 	lastName : lastName,
+	// 	adress : adress,
+	// 	city : city,
+	// 	mail : mail,
+	// }
+	// let product = productArray();
+
+	// submit.addEventListener('click', (e) => {
+	// 	e.preventDefault();
+	// 	let payload = {};
+	// 	payload.push(product);
+	// 	payload.push(contact);
+	// 	post("http://localhost:3000/api/teddies/order", payload)
+		
+
+	// })
 	exit.addEventListener("click", (r) => shade.remove());
 }
 
@@ -110,7 +150,7 @@ function injectForm() {
 				<label for="email">Entrez votre adresse mail: </label>
 				<input type="email" name="email" id="email" required>
 			<div class="form__button">
-				<input type="submit" value="Commander" class="form__btn btn">
+				<input type="submit" value="Commander" class="form__btn btn" id="submitForm">
 			</div>
 		</form>
 	</article>
@@ -153,4 +193,46 @@ function injectTeddies(item) {
 // 	});
 // }
 
+function get(key){
+	return JSON.parse(localStorage.getItem(key));
+}
+function store (key, array){
+	return localStorage.setItem(key, JSON.stringify(array));
+}
 
+/* Function to remove the selected product from localStorage
+*  @param key is the localStorage key
+*  @param caller is the info received from the eventlistener
+*/
+function removeLocal (key, caller) {
+	let selectedId = caller.path[2].childNodes[3].childNodes[3].innerText;
+	let selectedColor = caller.path[2].childNodes[3].childNodes[5].innerText;
+	let arrayClip = get(key);
+	let arrayWithoutProduct = arrayClip.filter(
+		(e) => e.id != selectedId && e.color != selectedColor
+	);
+	store(key, arrayWithoutProduct);
+}
+
+function producArray(){
+	let a = get('productItem');
+	let b = [];
+	a.forEach((data) => b.push(data.id));
+	return b;
+};
+
+// function post(key, object){
+// 	fetch(key, {
+// 		method : "POST",
+// 		headers : {
+// 			accept : 'application/json',
+// 			"Content-Type" : "application/json",
+// 		},
+// 		body : JSON.stringify(object);
+// 	})
+// }
+
+
+// let regexEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+// let regexCodePostal = /[0-9]/;
+// let regexAddress = /\d([ ])(\w+[ ]?)+/;
