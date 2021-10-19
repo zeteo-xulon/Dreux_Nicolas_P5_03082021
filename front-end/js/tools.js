@@ -1,3 +1,5 @@
+let urlParameter = new URLSearchParams(window.location.search);
+
 // Create our number formatter.
 const formatter = new Intl.NumberFormat('fr-FR', {
   style: 'currency',

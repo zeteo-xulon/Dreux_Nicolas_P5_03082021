@@ -14,7 +14,7 @@
 
     <header class="header">
       <div class="header__box">
-        <a href="/index.html">
+        <a href="../../index.html">
              <img  class="logo" src="../images/logo_transparent.png" alt="logo Orinoco" height="50" width="200"  />
          </a>
         <h1 class="main__title">Les spécialistes des produits premium</h1>
@@ -31,10 +31,10 @@
           <h1 class="ticket__id">Commande : <br />
             <span id="ticketId">####ID#####</span></h1>
           <h2 class="ticket__confirm">Confirmé <i class="far fa-check-circle"></i></h2>
-          <h3 class="ticket__total">Prix total : <span class="ticketTotalPrice">€€€</span></h3>
+          <h3 class="ticket__total">Prix total : <span id="ticketTotalPrice">€€€</span></h3>
 
           <div class="ticket__thanks">
-            <p class="ticket__thanks__paragraph">Merci pour votre commande chez</p>
+            <p class="ticket__thanks__paragraph">Merci <span class="client__name" id="clientName"></span> pour votre commande chez</p>
             <img src="../images/logo_orinoco_fond_transparent_cropped.png" alt="Logo Orinoco" class="ticket__thanks__img" height="70" width="300">
           </div>
 
@@ -55,7 +55,8 @@
 
   </div>
 
-
+<script src="../js/tools.js"></script>
+<script src="../js/confirmation.js"></script>
 <script src="https://kit.fontawesome.com/6d73c8c34e.js" crossorigin="anonymous"></script>
 
 </body>

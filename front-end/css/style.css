@@ -407,6 +407,13 @@ body {
   font-size: clamp(20px,2rem,2vw);
   margin: 5px 0px;
 }
+.form .display__error-text {
+  font-size: 1rem;
+  color: red;
+}
+.form .display__error-text p {
+  margin: 3px 0px;
+}
 .form .form__button {
   display: flex;
   justify-content: center;
@@ -427,7 +434,11 @@ body {
   background: #f3e9f2;
 }
 .ticket .ticket__id {
-  font-size: 1.8rem;
+  font-size: clamp(16px, 2rem, 10vw);
+  text-align: center;
+}
+.ticket .ticket__id #ticketId {
+  font-size: clamp(10px, 1rem, 6vw);
 }
 .ticket .ticket__confirm {
   font-size: 1.3rem;
@@ -443,6 +454,7 @@ body {
 }
 .ticket .ticket__thanks__paragraph {
   margin: 5px;
+  text-align: center;
 }
 .ticket .ticket__thanks__img {
   height: 4rem;

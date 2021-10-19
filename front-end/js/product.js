@@ -7,7 +7,6 @@ const url = "http://localhost:3000/api/teddies";
 const mainProduct = document.querySelector("main");
 
 // Get the id from the url
-let urlParameter = new URLSearchParams(window.location.search);
 let id = urlParameter.get("_id");
 
 // stocker

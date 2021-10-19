@@ -12,7 +12,11 @@
 
 
   & .ticket__id{
-    font-size: 1.8rem;
+    font-size: clamp(16px, 2rem, 10vw);
+    text-align: center;
+    & #ticketId{
+      font-size : clamp(10px, 1rem, 6vw);
+    }
   }
   & .ticket__confirm{
     font-size: 1.3rem;
@@ -25,6 +29,7 @@
     flex-flow: column nowrap;
     &__paragraph{
       margin: 5px;
+      text-align: center;
     }
     &__img{
       height: 4rem;

@@ -1,7 +1,6 @@
 //=============================
 //      VARIABLE
 //=============================
-
 const cartArticleContainer = document.getElementById("cartArticleList");
 const items = localStorage.productItem;
 const itemQuantity = parseInt(items.quantity);
@@ -15,16 +14,23 @@ let productInCart = false;
 let priceList = [];
 let totalQuantity = 0;
 
+//regex
+let regexName = new RegExp(/^[a-zA-Z\-]+$/);
+// let regexEmail = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/); c'est pas un peu trop ça ?
+let regexEmail = new RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/);
+let regexAddress = new RegExp(/^[a-zA-Z0-9\s,.'-]{3,}$/);
+let regexCity = new RegExp(/^[a-zA-Z',.\s-]{1,25}$/);
+
 //=============================
 //      SCENARIO
 //=============================
 /*
-* Begin by a loop of all the product in the localStorage,
-* It will inject the HTML relative to all the elements
-* it will check the quantity, and correct what could be wrong
-* then it will calculate the price, and begin to listen what
-* happen on screen, to delete, or go to command information step.
-*/
+ * Begin by a loop of all the product in the localStorage,
+ * It will inject the HTML relative to all the elements
+ * it will check the quantity, and correct what could be wrong
+ * then it will calculate the price, and begin to listen what
+ * happen on screen, to delete, or go to command information step.
+ */
 
 for (let i = 0; i < incartProduct.length; i++) {
 	let item = incartProduct[i];
@@ -42,12 +48,14 @@ function listenEvent() {
 	document.addEventListener("click", (e) => {
 		let totalPrice = parseInt(document.getElementById("totalPrice").innerText);
 		if (e.target.matches(".fa-trash-alt")) {
-			removeLocal('productItem', e);
+			removeLocal("productItem", e);
 			e.path[2].remove();
 			priceCalculator();
 		}
 		if (e.target.matches("#cartButton")) {
-			totalPrice <= 0 ? alert("Le panier est vide") : (priceCalculator(), formPopUp());
+			totalPrice <= 0
+				? alert("Le panier est vide")
+				: (priceCalculator(), formPopUp());
 		}
 	});
 }
@@ -98,34 +106,84 @@ function displayQuantityWarningMessage() {
 function formPopUp() {
 	shadeContainer.innerHTML = injectForm();
 
-	let shade = document.querySelector(".shade-screen");
-	let exit = document.getElementById("formExit");
-	
-	// let firstName = document.getElementById('firstname').value;
-	// let lastName = document.getElementById('name').value;
-	// let adress = document.getElementById('adress').value;
-	// let city = document.getElementById('city').value;
-	// let mail = document.getElementById('email').value;
-	// let submit = document.getElementById('submitForm');
-	// let contact = {
-	// 	firstName : firstName,
-	// 	lastName : lastName,
-	// 	adress : adress,
-	// 	city : city,
-	// 	mail : mail,
-	// }
-	// let product = productArray();
+	const shade = document.querySelector(".shade-screen");
+	const exit = document.getElementById("formExit");
+	const submit = document.getElementById("submitForm");
+	const errorBox = document.querySelector(".display__error-text");
 
-	// submit.addEventListener('click', (e) => {
-	// 	e.preventDefault();
-	// 	let payload = {};
-	// 	payload.push(product);
-	// 	payload.push(contact);
-	// 	post("http://localhost:3000/api/teddies/order", payload)
-		
-
-	// })
 	exit.addEventListener("click", (r) => shade.remove());
+	
+	submit.addEventListener("click", (e) => {
+		e.preventDefault();
+		let firstName = document.getElementById("firstname").value;
+		let lastName = document.getElementById("name").value;
+		let address = document.getElementById("adress").value;
+		let city = document.getElementById("city").value;
+		let email = document.getElementById("email").value;
+
+		// reset eventual old error message to dodge possible stack
+		errorBox.innerHTML = "";
+
+		// check every input, if it's not good, it don't go forward, and will display and error message for each situation.
+		if (regexName.exec(firstName) === null) {
+			errorBox.innerHTML += `<p>La syntaxe du prénom n'est pas valide.</p>`;
+		}
+		if (regexName.exec(lastName) === null) {
+			errorBox.innerHTML += `<p>La syntaxe du nom de famille n'est pas valide.</p>`;
+		}
+		if (regexAddress.exec(address) === null) {
+			errorBox.innerHTML += `<p>La syntaxe de l'adresse n'est pas valide.</p>`;
+		}
+		if (regexCity.exec(city) === null) {
+			errorBox.innerHTML += `<p>La syntaxe de la ville n'est pas valide.</p>`;
+		}
+		if (regexEmail.exec(email) === null) {
+			errorBox.innerHTML += `<p>La syntaxe de l'adresse email n'est pas valide.</p>`;
+		}
+		if (
+			regexName.exec(firstName) !== null &&
+			regexName.exec(lastName) !== null &&
+			regexAddress.exec(address) !== null &&
+			regexCity.exec(city) !== null &&
+			regexEmail.exec(email) !== null
+		) {
+			let contact = {
+				firstName: firstName,
+				lastName: lastName,
+				address: address,
+				city: city,
+				email: email,
+			};
+
+			let products = productArray();
+			let payload = { contact, products };
+
+			fetch("http://localhost:3000/api/teddies/order", {
+				method: "POST",
+				body: JSON.stringify(payload),
+				headers: {
+					"Content-Type": "application/json",
+				},
+			})
+				.then((res) => res.json())
+				.then((e) => {
+					console.log(e);
+					localStorage.removeItem("productItem");
+					return (document.location.href =
+						"./confirmation.html?orderId=" +
+						e.orderId +
+						"&firstName=" +
+						e.contact.firstName +
+						"&lastName=" +
+						e.contact.lastName +
+						"&total=" +
+						parseInt(totalPrice.innerText));
+				})
+				.catch((err) => console.log(err));
+		}
+
+		
+	});
 }
 
 function htmlInjector(item) {
@@ -149,9 +207,10 @@ function injectForm() {
 				<input type="text" name="name" id="city" required>
 				<label for="email">Entrez votre adresse mail: </label>
 				<input type="email" name="email" id="email" required>
-			<div class="form__button">
-				<input type="submit" value="Commander" class="form__btn btn" id="submitForm">
-			</div>
+				<div class="display__error-text"></div>
+				<div class="form__button">
+					<input type="submit" value="Commander" class="form__btn btn" id="submitForm">
+				</div>
 		</form>
 	</article>
 </div>
@@ -186,25 +245,18 @@ function injectTeddies(item) {
   `;
 }
 
-// function listenValidateCartButton() {
-// 	cartButton.addEventListener("click", (e) => {
-// 		priceCalculator();
-// 		formPopUp();
-// 	});
-// }
-
-function get(key){
+function get(key) {
 	return JSON.parse(localStorage.getItem(key));
 }
-function store (key, array){
+function store(key, array) {
 	return localStorage.setItem(key, JSON.stringify(array));
 }
 
 /* Function to remove the selected product from localStorage
-*  @param key is the localStorage key
-*  @param caller is the info received from the eventlistener
-*/
-function removeLocal (key, caller) {
+ *  @param key is the localStorage key
+ *  @param caller is the info received from the eventlistener
+ */
+function removeLocal(key, caller) {
 	let selectedId = caller.path[2].childNodes[3].childNodes[3].innerText;
 	let selectedColor = caller.path[2].childNodes[3].childNodes[5].innerText;
 	let arrayClip = get(key);
@@ -214,25 +266,16 @@ function removeLocal (key, caller) {
 	store(key, arrayWithoutProduct);
 }
 
-function producArray(){
-	let a = get('productItem');
+function producArray() {
+	let a = get("productItem");
 	let b = [];
 	a.forEach((data) => b.push(data.id));
 	return b;
-};
+}
 
-// function post(key, object){
-// 	fetch(key, {
-// 		method : "POST",
-// 		headers : {
-// 			accept : 'application/json',
-// 			"Content-Type" : "application/json",
-// 		},
-// 		body : JSON.stringify(object);
-// 	})
-// }
-
-
-// let regexEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-// let regexCodePostal = /[0-9]/;
-// let regexAddress = /\d([ ])(\w+[ ]?)+/;
+function productArray() {
+	let array = [];
+	let local = JSON.parse(localStorage.getItem("productItem"));
+	local.forEach((element) => array.push(element.id));
+	return array;
+}
