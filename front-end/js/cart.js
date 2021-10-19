@@ -11,8 +11,6 @@ const shadeContainer = document.getElementById("formDisplay");
 
 let incartProduct = JSON.parse(localStorage.getItem("productItem"));
 let productInCart = false;
-let priceList = [];
-let totalQuantity = 0;
 
 //regex
 let regexName = new RegExp(/^[a-zA-Z\-]+$/);
@@ -39,10 +37,17 @@ for (let i = 0; i < incartProduct.length; i++) {
 }
 priceCalculator();
 listenEvent();
+cartEmptyChecker();
 
 //=============================
 //      FUNCTION
 //=============================
+function cartEmptyChecker (){
+	let incartProduct = JSON.parse(localStorage.getItem("productItem"));
+	if (incartProduct.length === 0) {
+		messageBox.innerHTML = `<p>Le panier est vide</p>`;
+		}
+	}
 
 function listenEvent() {
 	document.addEventListener("click", (e) => {
@@ -51,6 +56,7 @@ function listenEvent() {
 			removeLocal("productItem", e);
 			e.path[2].remove();
 			priceCalculator();
+			cartEmptyChecker()
 		}
 		if (e.target.matches("#cartButton")) {
 			totalPrice <= 0
@@ -112,7 +118,7 @@ function formPopUp() {
 	const errorBox = document.querySelector(".display__error-text");
 
 	exit.addEventListener("click", (r) => shade.remove());
-	
+
 	submit.addEventListener("click", (e) => {
 		e.preventDefault();
 		let firstName = document.getElementById("firstname").value;
@@ -181,8 +187,6 @@ function formPopUp() {
 				})
 				.catch((err) => console.log(err));
 		}
-
-		
 	});
 }
 

@@ -286,6 +286,11 @@ body {
   height: 100%;
   width: 100%;
 }
+.cart__container .display__message {
+  font-size: clamp(10px, 1.5rem, 4vw);
+  font-weight: bold;
+  text-align: center;
+}
 .cart__container .cart__article__container .cart__article__list {
   display: flex;
   flex-flow: column nowrap;
