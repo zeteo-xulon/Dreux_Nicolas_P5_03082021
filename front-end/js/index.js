@@ -1,14 +1,13 @@
 //---------------------------------
 //						VARIABLES
 //---------------------------------
-const serverAdress = "http://localhost:3000/api/teddies";
 const teddieList = document.querySelector(".teddie__list");
 
 //---------------------------------
 //						SCENARIO
 //---------------------------------
-//to get the data from the API and display it
-fetch(serverAdress)
+// Get the data from the API and display it
+fetch(url)
 	.then((res) => res.json())
 	.then((data) => loop(data))
 	.catch((err) => {

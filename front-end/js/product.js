@@ -1,9 +1,6 @@
 //==========================================
 // Variables List
 //==========================================
-const url = "http://localhost:3000/api/teddies";
-
-//Pointer
 const mainProduct = document.querySelector("main");
 
 // Get the id from the url
@@ -38,13 +35,14 @@ fetch(url + "/" + id)
 /*=====================================================
  *       FUNCTION LIST
  *====================================================*/
+//display a message for the user when something wrong
 function displayErrorMessage() {
 	mainProduct.innerHTML = `<h2>Veuillez réessayer utltérieumenent, une erreur s'est produite.</h2>`;
 }
 
 function displayMaxQuantityMessage() {
 	const quantityBox = document.querySelector(".product__quantity__box");
-	quantityBox.innerHTML += `<p class="product__quantity--error-message">La quantité maximale est atteinte</p>`;
+	quantityBox.innerHTML += `<p class="product__quantity--error-message">La quantité maximale est de 9</p>`;
 }
 
 function displayTeddieInfo(product) {
@@ -52,7 +50,9 @@ function displayTeddieInfo(product) {
   	<section class="product-card">
 
       <div class="product__img-box" >
-        <img class="product__img" src="${product.imageUrl}" alt="Image du nounours ${product.name}" />
+        <img class="product__img" src="${
+					product.imageUrl
+				}" alt="Image du nounours ${product.name}" />
       </div>
 
       <article class="product__informations">
@@ -66,11 +66,15 @@ function displayTeddieInfo(product) {
 					</div>
           <aside class="product__description">
             <h3 class="product__title">Description</h3>
-            <p class="product__description__paragraph">${product.description}</p>
+            <p class="product__description__paragraph">${
+							product.description
+						}</p>
           </aside>
 
           <div class="center-box">
-            <p class="product__price">${formatter.format(parseInt(product.price) / 100)}</p>
+            <p class="product__price">${formatter.format(
+							parseInt(product.price) / 100
+						)}</p>
             <button class="btn" id="productSubmit">Ajouter au panier</button>
           </div>
 
@@ -118,8 +122,9 @@ function submitChecker(product) {
 		if (localStorage.length > 0) {
 			array = get("productItem");
 
-			let filtredArray = []
+			let filtredArray = [];
 			let arrayWithoutProduct = [];
+			let quantityToPush = parseInt(objectToAdd.quantity);
 			filtredArray = array.filter(
 				(e) => e.id == objectToAdd.id && e.color == objectToAdd.color
 			);
@@ -127,29 +132,36 @@ function submitChecker(product) {
 				(e) => e.id != objectToAdd.id && e.color != objectToAdd.color
 			);
 			if (filtredArray.length === 0) {
-				arrayToStorage(objectToAdd, array, "productItem");
+				if (quantityToPush > 9) {	
+					displayMaxQuantityMessage();
+					document.getElementById("productQuantity").value = 9;
+				}
+				if (quantityToPush <= 9) {
+					arrayToStorage(objectToAdd, array, "productItem");
+					goToCart();
+				}
 			}
 			if (filtredArray.length === 1) {
-				let quantityA = parseInt(filtredArray[0].quantity);
-				let quantityB = parseInt(objectToAdd.quantity);
-				quantityB = quantityA + quantityB;
-				if (quantityB >= 9) {
-					document.getElementById("productQuantity").value = 9;
-					quantityB = 9;
+				let quantityArray = parseInt(filtredArray[0].quantity);
+				quantityToPush = quantityArray + quantityToPush;
+				if (quantityToPush >= 9) {
+					quantityToPush = 9;
 					objectToAdd.quantity = "9";
-					arrayToStorage(objectToAdd, arrayWithoutProduct, 'productItem');
+					arrayToStorage(objectToAdd, arrayWithoutProduct, "productItem");
 					displayMaxQuantityMessage();
+					document.getElementById("productQuantity").value = 9;
+					setTimeout((e) => goToCart(), 1500);
 				}
-				if (quantityB < 9) {
-					objectToAdd.quantity = quantityB;
-					arrayToStorage(objectToAdd, arrayWithoutProduct, 'productItem');
+				if (quantityToPush < 9) {
+					objectToAdd.quantity = quantityToPush;
+					arrayToStorage(objectToAdd, arrayWithoutProduct, "productItem");
 				}
 			}
-			return (document.location.href = "./cart.html");
+			// return (document.location.href = "./cart.html");
 		}
 		if (localStorage.length === 0) {
 			arrayToStorage(objectToAdd, array, "productItem");
-			return (document.location.href = "./cart.html");
+			goToCart();
 		}
 	};
 }
@@ -166,4 +178,8 @@ function arrayToStorage(teddieObject, param, key) {
 	param.unshift(teddieObject);
 	store(key, param);
 	return param;
+}
+
+function goToCart() {
+	return (document.location.href = "./cart.html");
 }

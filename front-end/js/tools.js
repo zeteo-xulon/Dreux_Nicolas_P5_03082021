@@ -1,4 +1,5 @@
 let urlParameter = new URLSearchParams(window.location.search);
+const url = "http://localhost:3000/api/teddies";
 
 // Create our number formatter.
 const formatter = new Intl.NumberFormat('fr-FR', {
