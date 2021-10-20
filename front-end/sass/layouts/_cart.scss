@@ -22,11 +22,6 @@
 	padding: 10px;
 	height: 100%;
 	width: 100%;
-	& .display__message{
-		font-size: clamp(10px, 1.5rem, 4vw);
-    font-weight: bold;
-    text-align: center;
-	}
 	& .cart__article__container {
 		& .cart__article__list {
 			display: flex;
@@ -34,6 +29,11 @@
 			gap: 1rem;
 			padding: 0px;
 			margin: 0px;
+			& .empty__cart{
+				font-size: clamp(10px, 1.5rem, 4vw);
+				font-weight: bold;
+				text-align: center;
+			}
 		}
 	}
 }

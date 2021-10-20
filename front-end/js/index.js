@@ -1,5 +1,5 @@
 //---------------------------------
-//						VARIABLES
+//						VARIABLE
 //---------------------------------
 const teddieList = document.querySelector(".teddie__list");
 
@@ -9,7 +9,7 @@ const teddieList = document.querySelector(".teddie__list");
 // Get the data from the API and display it
 fetch(url)
 	.then((res) => res.json())
-	.then((data) => loop(data))
+	.then((data) => loopingInProduct(data))
 	.catch((err) => {
 		console.log(err);
 		teddieList.textContent = "Les nounours n'ont pas pu être chargé";
@@ -19,7 +19,8 @@ fetch(url)
 //						FUNCTION
 //---------------------------------
 //the ressources to incorporate in the diplay function
-const htmlInjection = (teddie) => {
+// @Param teddie receive the fetch response
+const injectHtml = (teddie) => {
 	return `
 		<a class="teddie__card" href="./front-end/pages/product.html?_id=${teddie._id}">
 		<img src="${teddie.imageUrl}" alt="Image d'ours en peluche">
@@ -28,8 +29,9 @@ const htmlInjection = (teddie) => {
 };
 
 //loop into the json to inject the html into the code
-function loop(teddies) {
+// @Param teddie receive the fetch response
+function loopingInProduct(teddies) {
 	for (teddie of teddies) {
-		teddieList.innerHTML += htmlInjection(teddie);
+		teddieList.innerHTML += injectHtml(teddie);
 	}
 }
