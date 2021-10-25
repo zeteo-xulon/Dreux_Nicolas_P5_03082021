@@ -81,7 +81,7 @@ function buildArray() {
  *		@Param city receive a string.
  *		@Param email receive a string.
  */
- function buildUserObject(firstName, lastName, address, city, email) {
+function buildUserObject(firstName, lastName, address, city, email) {
 	let contact = {
 		firstName: firstName,
 		lastName: lastName,
@@ -273,7 +273,6 @@ function listenEvent() {
 	});
 }
 
-
 // Send a request to the API with the payload object and change url for confirmation page.
 function post(object) {
 	fetch("http://localhost:3000/api/teddies/order", {
@@ -307,7 +306,6 @@ function productArray() {
 	return array;
 }
 
-
 // In case of null, will set an integer 0.
 function regulateQuantity(data) {
 	return data === null ? (data = 0) : parseInt(data.quantity);
@@ -320,8 +318,16 @@ function removeLocal(key, caller) {
 	let selectedId = caller.path[2].childNodes[3].childNodes[3].innerText;
 	let selectedColor = caller.path[2].childNodes[3].childNodes[5].innerText;
 	let arrayClip = get(key);
-	let arrayWithoutProduct = arrayClip.filter(
-		(e) => e.id != selectedId && e.color != selectedColor
-	);
-	store(key, arrayWithoutProduct);
+	let a = arrayClip.filter((e) => e.id == selectedId && e.color != selectedColor);
+	let b = arrayClip.filter((e) => e.id != selectedId && e.color != selectedColor);
+	if (a.length > 0 && b.length > 0) {
+		let c = a.concat(b);
+		return store(key, c);
+	}
+	if (a.length > 0 && b.length === 0) {
+		return store(key, a);
+	}
+	if (a.length === 0 && b.length > 0) {
+		return store(key, b);
+	}
 }
